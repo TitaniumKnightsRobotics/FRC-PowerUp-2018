@@ -2,13 +2,15 @@
 package org.usfirst.frc.team6203.robot;
 
 
-import org.usfirst.frc.team6203.robot.subsystems.*;
-import org.usfirst.frc.team6203.robot.commands.*;
+import org.usfirst.frc.team6203.robot.commands.Drive;
+import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
+import org.usfirst.frc.team6203.robot.subsystems.Chassis;
+import org.usfirst.frc.team6203.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -30,6 +32,7 @@ public class Robot extends IterativeRobot {
 	public static Elevator elevator;
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
+	Counter halleffect;
 	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -49,9 +52,8 @@ public class Robot extends IterativeRobot {
 		camera.startAutomaticCapture();
 		imu = new ADIS16448_IMU();
 		encoder = new Encoder(RobotMap.encoder_channelA,RobotMap.encoder_channelB);
+		halleffect = new Counter(RobotMap.halleffect);
 		
-		
-//		elevator = new Elevator();
 		
 		chooser.addDefault("Default Auto", null);
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -140,7 +142,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		SmartDashboard.putNumber("Encoder", encoder.getDistance());
+		SmartDashboard.putNumber("Hall Effect", halleffect.get());
 //		SmartDashboard.putNumber("Encoder", encoder.);
 	    
 		/*
