@@ -6,6 +6,7 @@ import org.usfirst.frc.team6203.robot.subsystems.*;
 import org.usfirst.frc.team6203.robot.commands.*;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,6 +28,8 @@ public class Robot extends IterativeRobot {
 	public static Chassis chassis;
 	CameraServer camera;
 	public static Elevator elevator;
+	public static ADIS16448_IMU imu;
+	public static Encoder encoder;
 	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -44,6 +47,9 @@ public class Robot extends IterativeRobot {
 		camera = CameraServer.getInstance();
 		camera.addAxisCamera("test","10.62.3.192");
 		camera.startAutomaticCapture();
+		imu = new ADIS16448_IMU();
+		encoder = new Encoder(RobotMap.encoder_channelA,RobotMap.encoder_channelB);
+		
 		
 //		elevator = new Elevator();
 		
@@ -115,6 +121,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		
 		Drive.slow = false;
+		
 	}
 
 	/**
@@ -122,6 +129,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+	    SmartDashboard.putNumber("Pressure: ", Robot.imu.getBarometricPressure());
+	    SmartDashboard.putNumber("Temperature: ", Robot.imu.getTemperature()); 
+
 		Scheduler.getInstance().run();
 	}
 
@@ -130,6 +140,23 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		SmartDashboard.putNumber("Encoder", encoder.getDistance());
+//		SmartDashboard.putNumber("Encoder", encoder.);
+	    
+		/*
+	    SmartDashboard.putNumber("Gyro-X", Robot.imu.getAngleX());
+	    SmartDashboard.putNumber("Gyro-Y", Robot.imu.getAngleY());
+	    SmartDashboard.putNumber("Gyro-Z", Robot.imu.getAngleZ());
+	    
+	    SmartDashboard.putNumber("Accel-X", Robot.imu.getAccelX());
+	    SmartDashboard.putNumber("Accel-Y", Robot.imu.getAccelY());
+	    SmartDashboard.putNumber("Accel-Z", Robot.imu.getAccelZ());
+	    
+	    SmartDashboard.putNumber("Pitch", Robot.imu.getPitch());
+	    SmartDashboard.putNumber("Roll", Robot.imu.getRoll());
+	    SmartDashboard.putNumber("Yaw", Robot.imu.getYaw());
+	    */
+	    
 		LiveWindow.run();
 	}
 }

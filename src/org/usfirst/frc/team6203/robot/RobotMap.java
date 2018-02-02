@@ -19,5 +19,8 @@ public class RobotMap {
 	
 	
 	public static int slowspeed = 2;
+
+	public static int encoder_channelA = 0;
+	public static int encoder_channelB = 1;
 	
 }

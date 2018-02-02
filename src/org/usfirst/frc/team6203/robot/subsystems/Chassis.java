@@ -3,12 +3,15 @@ package org.usfirst.frc.team6203.robot.subsystems;
 import org.usfirst.frc.team6203.robot.OI;
 import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
+import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.commands.Drive;
+import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Chassis extends Subsystem {
 
@@ -55,6 +58,8 @@ public class Chassis extends Subsystem {
 	}
 
 	public void arcadeDrive() {
+		
+		
 		double mag = Robot.oi.driverStick.getMagnitude();
 		double dir = Robot.oi.driverStick.getDirectionDegrees() / 180 - 1;
 		
