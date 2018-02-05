@@ -18,6 +18,7 @@ public class Drive extends Command {
 	}
 
 	protected void initialize() {
+		slow = false;
 	}
 
 	private void updateButtons(){
