@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team6203.robot;
 
+
 import org.usfirst.frc.team6203.robot.commands.Drive;
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
@@ -24,15 +25,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	
 	public static OI oi;
 	public static Chassis chassis;
-	public static CameraServer camera;
+	CameraServer camera;
 	public static Elevator elevator;
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
-	public static Counter halleffect;
-
+	Counter halleffect;
+	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -42,23 +43,24 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-
-		// Instantiate subsystems
+		
+		//Instantiate subsystems
 		oi = new OI();
 		chassis = new Chassis();
 		camera = CameraServer.getInstance();
-		camera.addAxisCamera("test", Constants.IP);
+		camera.addAxisCamera("test","10.62.3.192");
 		camera.startAutomaticCapture();
 		imu = new ADIS16448_IMU();
-		encoder = new Encoder(RobotMap.encoder_channelA, RobotMap.encoder_channelB);
+		encoder = new Encoder(RobotMap.encoder_channelA,RobotMap.encoder_channelB);
 		halleffect = new Counter(RobotMap.halleffect);
-
+		
+		
 		chooser.addDefault("Default Auto", null);
 		// chooser.addObject("My Auto", new MyAutoCommand());
-
+		
 		SmartDashboard.putData("Auto Routine", chooser);
-
-		//Drive.slow = false;
+		
+		Drive.slow = false;
 	}
 
 	/**
@@ -119,9 +121,9 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-
+		
 		Drive.slow = false;
-
+		
 	}
 
 	/**
@@ -129,8 +131,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("Pressure: ", Robot.imu.getBarometricPressure());
-		SmartDashboard.putNumber("Temperature: ", Robot.imu.getTemperature());
+	    SmartDashboard.putNumber("Pressure: ", Robot.imu.getBarometricPressure());
+	    SmartDashboard.putNumber("Temperature: ", Robot.imu.getTemperature()); 
 
 		Scheduler.getInstance().run();
 	}
@@ -141,22 +143,22 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		SmartDashboard.putNumber("Hall Effect", halleffect.get());
-		// SmartDashboard.putNumber("Encoder", encoder.);
-
+//		SmartDashboard.putNumber("Encoder", encoder.);
+	    
 		/*
-		 * SmartDashboard.putNumber("Gyro-X", Robot.imu.getAngleX());
-		 * SmartDashboard.putNumber("Gyro-Y", Robot.imu.getAngleY());
-		 * SmartDashboard.putNumber("Gyro-Z", Robot.imu.getAngleZ());
-		 * 
-		 * SmartDashboard.putNumber("Accel-X", Robot.imu.getAccelX());
-		 * SmartDashboard.putNumber("Accel-Y", Robot.imu.getAccelY());
-		 * SmartDashboard.putNumber("Accel-Z", Robot.imu.getAccelZ());
-		 * 
-		 * SmartDashboard.putNumber("Pitch", Robot.imu.getPitch());
-		 * SmartDashboard.putNumber("Roll", Robot.imu.getRoll());
-		 * SmartDashboard.putNumber("Yaw", Robot.imu.getYaw());
-		 */
-
+	    SmartDashboard.putNumber("Gyro-X", Robot.imu.getAngleX());
+	    SmartDashboard.putNumber("Gyro-Y", Robot.imu.getAngleY());
+	    SmartDashboard.putNumber("Gyro-Z", Robot.imu.getAngleZ());
+	    
+	    SmartDashboard.putNumber("Accel-X", Robot.imu.getAccelX());
+	    SmartDashboard.putNumber("Accel-Y", Robot.imu.getAccelY());
+	    SmartDashboard.putNumber("Accel-Z", Robot.imu.getAccelZ());
+	    
+	    SmartDashboard.putNumber("Pitch", Robot.imu.getPitch());
+	    SmartDashboard.putNumber("Roll", Robot.imu.getRoll());
+	    SmartDashboard.putNumber("Yaw", Robot.imu.getYaw());
+	    */
+	    
 		LiveWindow.run();
 	}
 }
