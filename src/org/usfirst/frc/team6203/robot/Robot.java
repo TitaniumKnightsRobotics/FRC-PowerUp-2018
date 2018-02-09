@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot {
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
 	public static Counter halleffect;
+	public static Ultrasonic ultrasonic;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -51,7 +53,6 @@ public class Robot extends IterativeRobot {
 		axisCam = CameraServer.getInstance();
 		axisCam.addAxisCamera("test", Constants.IP);
 		axisCam.startAutomaticCapture();
-		
 
 		usbCam = CameraServer.getInstance();
 		usbCam.startAutomaticCapture();
@@ -59,6 +60,7 @@ public class Robot extends IterativeRobot {
 		imu = new ADIS16448_IMU();
 		encoder = new Encoder(RobotMap.encoder_channelA, RobotMap.encoder_channelB);
 		halleffect = new Counter(RobotMap.halleffect);
+		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
 
 		chooser.addDefault("Default Auto", null);
 		// chooser.addObject("My Auto", new MyAutoCommand());

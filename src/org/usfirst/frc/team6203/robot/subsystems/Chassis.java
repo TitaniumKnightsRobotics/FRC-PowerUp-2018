@@ -34,8 +34,9 @@ public class Chassis extends Subsystem {
 		setDefaultCommand(new Drive());
 	}
 
-	public void simpleDrive(double speed, double curve) {
-		// drive.arcadeDrive(speed, curve);
+	public void simpleDrive(double speed) {
+		leftMotor.set(speed);
+		rightMotor.set(speed);
 	}
 
 	public void tankDrive() {
