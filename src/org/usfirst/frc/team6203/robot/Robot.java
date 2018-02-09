@@ -27,7 +27,8 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static Chassis chassis;
-	public static CameraServer camera;
+	public static CameraServer axisCam;
+	public static CameraServer usbCam;
 	public static Elevator elevator;
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
@@ -46,9 +47,15 @@ public class Robot extends IterativeRobot {
 		// Instantiate subsystems
 		oi = new OI();
 		chassis = new Chassis();
-		camera = CameraServer.getInstance();
-		camera.addAxisCamera("test", Constants.IP);
-		camera.startAutomaticCapture();
+
+		axisCam = CameraServer.getInstance();
+		axisCam.addAxisCamera("test", Constants.IP);
+		axisCam.startAutomaticCapture();
+		
+
+		usbCam = CameraServer.getInstance();
+		usbCam.startAutomaticCapture();
+		
 		imu = new ADIS16448_IMU();
 		encoder = new Encoder(RobotMap.encoder_channelA, RobotMap.encoder_channelB);
 		halleffect = new Counter(RobotMap.halleffect);
