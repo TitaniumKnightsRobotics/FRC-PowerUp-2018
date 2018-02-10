@@ -8,6 +8,7 @@ import org.usfirst.frc.team6203.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -34,8 +35,10 @@ public class Robot extends IterativeRobot {
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
 	public static Counter halleffect;
+
 	public static Ultrasonic ultrasonic;
 	public static DigitalOutput digit;
+
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -63,6 +66,9 @@ public class Robot extends IterativeRobot {
 		halleffect = new Counter(RobotMap.halleffect);
 		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
 
+		ultrasonic = new Ultrasonic(4,3);
+	    ultrasonic.setAutomaticMode(true);
+		
 		chooser.addDefault("Default Auto", null);
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
@@ -139,8 +145,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("Pressure: ", Robot.imu.getBarometricPressure());
-		SmartDashboard.putNumber("Temperature: ", Robot.imu.getTemperature());
+		SmartDashboard.putNumber("ultrasonic: ", ultrasonic.getRangeInches());
+		
 
 		Scheduler.getInstance().run();
 	}
@@ -151,21 +157,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		SmartDashboard.putNumber("Hall Effect", halleffect.get());
-		// SmartDashboard.putNumber("Encoder", encoder.);
-
-		/*
-		 * SmartDashboard.putNumber("Gyro-X", Robot.imu.getAngleX());
-		 * SmartDashboard.putNumber("Gyro-Y", Robot.imu.getAngleY());
-		 * SmartDashboard.putNumber("Gyro-Z", Robot.imu.getAngleZ());
-		 * 
-		 * SmartDashboard.putNumber("Accel-X", Robot.imu.getAccelX());
-		 * SmartDashboard.putNumber("Accel-Y", Robot.imu.getAccelY());
-		 * SmartDashboard.putNumber("Accel-Z", Robot.imu.getAccelZ());
-		 * 
-		 * SmartDashboard.putNumber("Pitch", Robot.imu.getPitch());
-		 * SmartDashboard.putNumber("Roll", Robot.imu.getRoll());
-		 * SmartDashboard.putNumber("Yaw", Robot.imu.getYaw());
-		 */
+		SmartDashboard.putNumber("ultrasonic", ultrasonic.getRangeMM());
 
 		LiveWindow.run();
 	}
