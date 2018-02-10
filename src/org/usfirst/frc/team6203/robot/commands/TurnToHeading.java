@@ -30,12 +30,6 @@ public class TurnToHeading extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		while (Robot.imu.getAngle() != target) {
-			Robot.chassis.turn(0.2, dir);
-		}
-		
-		isFinished();
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

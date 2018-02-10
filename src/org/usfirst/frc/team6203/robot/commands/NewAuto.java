@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.commands.Drive;
-import org.usfirst.frc.team6203.robot.commands.Move_Detect;
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 import org.usfirst.frc.team6203.robot.subsystems.Elevator;

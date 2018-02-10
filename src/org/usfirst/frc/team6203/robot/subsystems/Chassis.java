@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem {
 
-	private Victor leftMotor;
-	private Victor rightMotor;
-	private DifferentialDrive drive;
+	public static Victor leftMotor;
+	public static Victor rightMotor;
+	public static DifferentialDrive drive;
 
 	private final double root2 = Math.sqrt(2);
 	private final double sin135 = root2 / 2;
@@ -67,20 +67,26 @@ public class Chassis extends Subsystem {
 		drive.tankDrive(a, b);
 	}
 
+	double abs(double x) {
+		return x < 0 ? -x : x;
+	}
+
 	public void arcadeDrive() {
+		double yspeed = Robot.oi.driverStick.getY();
+		double xspeed = Robot.oi.driverStick.getX();
+		double b = cos135 * xspeed - sin135 * yspeed;
+		double a = sin135 * xspeed + cos135 * yspeed;
 
-		double mag = Robot.oi.driverStick.getMagnitude();
-		double dir = Robot.oi.driverStick.getDirectionDegrees() / 180 - 1;
+		// if (Drive.slow) {
+		// mag *= slow_multiplier;
+		// dir *= slow_multiplier;
+		// }
 
-		if (Drive.slow) {
-			mag *= slow_multiplier;
-			dir *= slow_multiplier;
+		if (!Drive.limit_pressed) {
+			drive.arcadeDrive(a + b, a - b);
+		} else {
+			drive.arcadeDrive(0, 0);
 		}
-
-		SmartDashboard.putNumber("magnitude", mag);
-		SmartDashboard.putNumber("direction", dir);
-
-		drive.arcadeDrive(mag, dir);
 
 	}
 
