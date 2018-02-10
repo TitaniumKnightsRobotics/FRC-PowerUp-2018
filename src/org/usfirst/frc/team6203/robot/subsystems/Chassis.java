@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class Chassis extends Subsystem {
 
 	private Victor leftMotor;
@@ -39,6 +38,16 @@ public class Chassis extends Subsystem {
 		rightMotor.set(speed);
 	}
 
+	public void turn(double speed, boolean d) {
+		if (d) {
+			leftMotor.set(-speed);
+			rightMotor.set(speed);
+		} else {
+			leftMotor.set(speed);
+			rightMotor.set(-speed);
+		}
+	}
+
 	public void tankDrive() {
 		SmartDashboard.putString("type", "tank");
 		SmartDashboard.putNumber("axisY", OI.driverStick.getY());
@@ -59,20 +68,19 @@ public class Chassis extends Subsystem {
 	}
 
 	public void arcadeDrive() {
-		
-		
+
 		double mag = Robot.oi.driverStick.getMagnitude();
 		double dir = Robot.oi.driverStick.getDirectionDegrees() / 180 - 1;
-		
-		if (Drive.slow){
+
+		if (Drive.slow) {
 			mag *= slow_multiplier;
 			dir *= slow_multiplier;
 		}
-		
+
 		SmartDashboard.putNumber("magnitude", mag);
 		SmartDashboard.putNumber("direction", dir);
-		
-		drive.arcadeDrive(mag,dir);
+
+		drive.arcadeDrive(mag, dir);
 
 	}
 

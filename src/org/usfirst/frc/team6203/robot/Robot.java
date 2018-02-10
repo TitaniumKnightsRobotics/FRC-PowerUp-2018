@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
 	public static Encoder encoder;
 	public static Counter halleffect;
 	public static Ultrasonic ultrasonic;
+	public static DigitalOutput digit;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
