@@ -2,6 +2,7 @@
 package org.usfirst.frc.team6203.robot;
 
 import org.usfirst.frc.team6203.robot.commands.Drive;
+import org.usfirst.frc.team6203.robot.commands.Move_Detect;
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 import org.usfirst.frc.team6203.robot.subsystems.Elevator;
@@ -72,7 +73,7 @@ public class Robot extends IterativeRobot {
 	    ultrasonic.setAutomaticMode(true);
 
 		
-		chooser.addDefault("Default Auto", null);
+		chooser.addDefault("Default Auto", new Move_Detect());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		SmartDashboard.putData("Auto Routine", chooser);
