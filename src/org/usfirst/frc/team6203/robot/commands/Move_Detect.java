@@ -37,6 +37,7 @@ public class Move_Detect extends Command {
     	do {
     	drive.tankDrive(.3, .3);
     	} while (Robot.encoder.getDistance() < 60);
+    	Robot.encoder.reset();
     	
     	//Turn Left 90 degrees
     	do {
@@ -48,6 +49,7 @@ public class Move_Detect extends Command {
     	do {
     	drive.tankDrive(.3, .3);
     	} while (Robot.encoder.getDistance() < 30);
+    	Robot.encoder.reset();
     	
     	//Turn Left 90 degrees
     	do {
@@ -75,6 +77,7 @@ public class Move_Detect extends Command {
         do {
         drive.tankDrive(.1, .1);
         } while (Robot.encoder.getDistance()< 5 );
+        Robot.encoder.reset();
         	
     	
     	
