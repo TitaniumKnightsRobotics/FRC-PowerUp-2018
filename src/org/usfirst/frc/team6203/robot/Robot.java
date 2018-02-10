@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
 	public static Counter halleffect;
+	public static Ultrasonic ultra;
 
 	public static Ultrasonic ultrasonic;
 	public static DigitalOutput digit;
@@ -66,8 +67,10 @@ public class Robot extends IterativeRobot {
 		halleffect = new Counter(RobotMap.halleffect);
 		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
 
+
 		ultrasonic = new Ultrasonic(4,3);
 	    ultrasonic.setAutomaticMode(true);
+
 		
 		chooser.addDefault("Default Auto", null);
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -145,7 +148,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+
 		SmartDashboard.putNumber("ultrasonic: ", ultrasonic.getRangeInches());
+
+		SmartDashboard.putNumber("ultrasonic: ", ultra.getRangeInches());
+
 		
 
 		Scheduler.getInstance().run();
@@ -157,7 +164,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		SmartDashboard.putNumber("Hall Effect", halleffect.get());
+
 		SmartDashboard.putNumber("ultrasonic", ultrasonic.getRangeMM());
+
+		SmartDashboard.putNumber("ultrasonic", ultra.getRangeMM());
+
 
 		LiveWindow.run();
 	}
