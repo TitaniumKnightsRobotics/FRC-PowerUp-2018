@@ -24,4 +24,9 @@ public class RobotMap {
 	public static int encoder_channelB = 1;
 	public static int halleffect = 2;
 	
+	public static int ultrasonic1 = 3;
+	public static int ultrasonic2 = 4;
+	
+	
+	
 }
