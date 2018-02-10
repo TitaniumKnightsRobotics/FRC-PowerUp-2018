@@ -8,6 +8,7 @@ import org.usfirst.frc.team6203.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -35,6 +36,8 @@ public class Robot extends IterativeRobot {
 	public static Encoder encoder;
 	public static Counter halleffect;
 	public static Ultrasonic ultra;
+
+	public static DigitalOutput arduinoPin;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -64,6 +67,8 @@ public class Robot extends IterativeRobot {
 
 		ultra = new Ultrasonic(4,3);
 	    ultra.setAutomaticMode(true);
+	    
+	    arduinoPin = new DigitalOutput(5);
 		
 		chooser.addDefault("Default Auto", null);
 		// chooser.addObject("My Auto", new MyAutoCommand());

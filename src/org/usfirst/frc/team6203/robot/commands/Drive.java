@@ -4,6 +4,7 @@ import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -28,7 +29,8 @@ public class Drive extends Command {
 		
 		slow_pressed = slow_curr;
 		
-		
+		Robot.arduinoPin.set(Robot.oi.driverStick.getRawButton(1));
+		SmartDashboard.putBoolean("BUTTON THING", Robot.oi.driverStick.getRawButton(1));
 	}
 	
 	// Called repeatedly when this Command is scheduled to run
