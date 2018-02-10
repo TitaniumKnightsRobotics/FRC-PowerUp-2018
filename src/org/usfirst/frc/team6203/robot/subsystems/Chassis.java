@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem {
 
-	private Victor leftMotor;
-	private Victor rightMotor;
-	private DifferentialDrive drive;
+	public static Victor leftMotor;
+	public static Victor rightMotor;
+	public static DifferentialDrive drive;
 
 	private final double root2 = Math.sqrt(2);
 	private final double sin135 = root2 / 2;
