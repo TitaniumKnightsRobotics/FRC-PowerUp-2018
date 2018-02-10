@@ -9,6 +9,7 @@ import org.usfirst.frc.team6203.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -30,8 +31,10 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static Chassis chassis;
+	
 	public static CameraServer axisCam;
 	public static CameraServer usbCam;
+	
 	public static Elevator elevator;
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
@@ -39,6 +42,8 @@ public class Robot extends IterativeRobot {
 
 	public static Ultrasonic ultrasonic;
 	public static DigitalOutput digit;
+	
+	public static DigitalInput limitSwitch;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -69,6 +74,7 @@ public class Robot extends IterativeRobot {
 	    ultrasonic.setAutomaticMode(true);
 	    
 	    digit = new DigitalOutput(5);
+	    limitSwitch= new DigitalInput(6);
 		
 		chooser.addDefault("Default Auto", new Move_Detect());
 		// chooser.addObject("My Auto", new MyAutoCommand());
