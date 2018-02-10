@@ -2,6 +2,7 @@
 package org.usfirst.frc.team6203.robot;
 
 import org.usfirst.frc.team6203.robot.commands.Drive;
+import org.usfirst.frc.team6203.robot.commands.Move_Detect;
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 import org.usfirst.frc.team6203.robot.subsystems.Elevator;
@@ -35,9 +36,9 @@ public class Robot extends IterativeRobot {
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
 	public static Counter halleffect;
-	public static Ultrasonic ultra;
 
-	public static DigitalOutput arduinoPin;
+	public static Ultrasonic ultrasonic;
+	public static DigitalOutput digit;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -56,7 +57,6 @@ public class Robot extends IterativeRobot {
 		axisCam = CameraServer.getInstance();
 		axisCam.addAxisCamera("test", Constants.IP);
 		axisCam.startAutomaticCapture();
-		
 
 		usbCam = CameraServer.getInstance();
 		usbCam.startAutomaticCapture();
@@ -64,13 +64,13 @@ public class Robot extends IterativeRobot {
 		imu = new ADIS16448_IMU();
 		encoder = new Encoder(RobotMap.encoder_channelA, RobotMap.encoder_channelB);
 		halleffect = new Counter(RobotMap.halleffect);
-
-		ultra = new Ultrasonic(4,3);
-	    ultra.setAutomaticMode(true);
-	    
-	    arduinoPin = new DigitalOutput(5);
 		
-		chooser.addDefault("Default Auto", null);
+		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
+	    ultrasonic.setAutomaticMode(true);
+	    
+	    digit = new DigitalOutput(5);
+		
+		chooser.addDefault("Default Auto", new Move_Detect());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		SmartDashboard.putData("Auto Routine", chooser);
@@ -146,8 +146,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("ultrasonic: ", ultra.getRangeInches());
-		
+		SmartDashboard.putNumber("ultrasonic: ", ultrasonic.getRangeInches());
 
 		Scheduler.getInstance().run();
 	}
@@ -158,7 +157,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		SmartDashboard.putNumber("Hall Effect", halleffect.get());
-		SmartDashboard.putNumber("ultrasonic", ultra.getRangeMM());
+
+		SmartDashboard.putNumber("ultrasonic", ultrasonic.getRangeMM());
 
 		LiveWindow.run();
 	}
