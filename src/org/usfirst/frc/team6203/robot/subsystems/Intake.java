@@ -13,8 +13,7 @@ public class Intake extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
-	Victor master_motor;
-	Victor slave_motor;
+	Victor intake_motor;
 	final double k = 5.0;
 
 	public enum State {
@@ -23,8 +22,7 @@ public class Intake extends Subsystem {
 
 	public Intake() {
 
-		master_motor = new Victor(RobotMap.intakeMotorM);
-		slave_motor = new Victor(RobotMap.intakeMotorS);
+		intake_motor = new Victor(RobotMap.intakeMotor);
 
 	}
 
@@ -33,13 +31,13 @@ public class Intake extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	private double calculateError() {
-		return (master_motor.getRaw() - slave_motor.getRaw()) / k;
-	}
+//	private double calculateError() {
+//		return (master_motor.getRaw() - slave_motor.getRaw()) / k;
+//	}
 
-	private void correctSpeed() {
-		slave_motor.set(master_motor.getSpeed() + calculateError());
-	}
+//	private void correctSpeed() {
+//		slave_motor.set(master_motor.getSpeed() + calculateError());
+//	}
 
 	public void setIntake(State s) {
 
