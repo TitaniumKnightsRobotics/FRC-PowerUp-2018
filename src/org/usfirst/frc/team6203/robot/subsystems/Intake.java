@@ -21,9 +21,7 @@ public class Intake extends Subsystem {
 	}
 
 	public Intake() {
-
 		intake_motor = new Victor(RobotMap.intakeMotor);
-
 	}
 
 	public void initDefaultCommand() {
@@ -31,15 +29,9 @@ public class Intake extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-//	private double calculateError() {
-//		return (master_motor.getRaw() - slave_motor.getRaw()) / k;
-//	}
-
-//	private void correctSpeed() {
-//		slave_motor.set(master_motor.getSpeed() + calculateError());
-//	}
-
 	public void setIntake(State s) {
+		
+		//todo
 
 	}
 

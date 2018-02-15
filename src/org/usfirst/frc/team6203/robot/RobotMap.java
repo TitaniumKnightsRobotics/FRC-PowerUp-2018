@@ -16,9 +16,8 @@ public class RobotMap {
 	public static int controller2 = 1;
 	
 	public static int elevatorMotor = 2;
-	
+
 	public static int intakeMotor = 3;
-	
 	
 	public static int slowspeed = 2;
 
