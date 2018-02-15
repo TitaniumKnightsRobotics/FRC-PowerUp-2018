@@ -13,7 +13,6 @@ public class Drive extends Command {
 
 	public static boolean slow;
 	public boolean slow_pressed = false;
-	public static boolean limit_pressed = false;
 	
 	public Drive() {
 		requires(Robot.chassis);
@@ -28,8 +27,6 @@ public class Drive extends Command {
 		if (!slow_pressed && slow_curr)
 			slow = !slow;
 		
-		limit_pressed = Robot.limitSwitch.get();
-		
 		slow_pressed = slow_curr;
 		
 		Robot.digit.set(Robot.oi.driverStick.getRawButton(1));
@@ -40,8 +37,8 @@ public class Drive extends Command {
 	protected void execute() {
 		updateButtons();
 		
-//		Robot.chassis.tankDrive();
-		Robot.chassis.arcadeDrive();
+		Robot.chassis.tankDrive();
+//		Robot.chassis.arcadeDrive();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

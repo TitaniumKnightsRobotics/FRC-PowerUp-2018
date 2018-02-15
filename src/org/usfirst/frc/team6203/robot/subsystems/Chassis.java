@@ -67,26 +67,20 @@ public class Chassis extends Subsystem {
 		drive.tankDrive(a, b);
 	}
 
-	double abs(double x) {
-		return x < 0 ? -x : x;
-	}
-
 	public void arcadeDrive() {
-		double yspeed = Robot.oi.driverStick.getY();
-		double xspeed = Robot.oi.driverStick.getX();
-		double b = cos135 * xspeed - sin135 * yspeed;
-		double a = sin135 * xspeed + cos135 * yspeed;
 
-		// if (Drive.slow) {
-		// mag *= slow_multiplier;
-		// dir *= slow_multiplier;
-		// }
+		double mag = Robot.oi.driverStick.getMagnitude();
+		double dir = Robot.oi.driverStick.getDirectionDegrees() / 180 - 1;
 
-		if (!Drive.limit_pressed) {
-			drive.arcadeDrive(a + b, a - b);
-		} else {
-			drive.arcadeDrive(0, 0);
+		if (Drive.slow) {
+			mag *= slow_multiplier;
+			dir *= slow_multiplier;
 		}
+
+		SmartDashboard.putNumber("magnitude", mag);
+		SmartDashboard.putNumber("direction", dir);
+
+		drive.arcadeDrive(mag, dir);
 
 	}
 
