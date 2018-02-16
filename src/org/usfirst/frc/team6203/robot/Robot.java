@@ -63,6 +63,7 @@ public class Robot extends IterativeRobot {
 		
 		imu = new ADIS16448_IMU();
 		encoder = new Encoder(RobotMap.encoder_channelA, RobotMap.encoder_channelB);
+		
 		halleffect = new Counter(RobotMap.halleffect);
 		
 		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
@@ -71,11 +72,8 @@ public class Robot extends IterativeRobot {
 	    digit = new DigitalOutput(5);
 		
 		chooser.addDefault("Default Auto", new Move_Detect());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-
 		SmartDashboard.putData("Auto Routine", chooser);
 
-		//Drive.slow = false;
 	}
 
 	/**
@@ -93,17 +91,6 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
@@ -115,7 +102,6 @@ public class Robot extends IterativeRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 
-		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -130,20 +116,12 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 
 		Drive.slow = false;
-
 	}
 
-	/**
-	 * This function is called periodically during operator control
-	 */
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("ultrasonic: ", ultrasonic.getRangeInches());
@@ -151,13 +129,9 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
 	@Override
 	public void testPeriodic() {
 		SmartDashboard.putNumber("Hall Effect", halleffect.get());
-
 		SmartDashboard.putNumber("ultrasonic", ultrasonic.getRangeMM());
 
 		LiveWindow.run();

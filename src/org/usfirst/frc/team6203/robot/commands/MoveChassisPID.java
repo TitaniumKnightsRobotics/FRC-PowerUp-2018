@@ -1,40 +1,59 @@
 package org.usfirst.frc.team6203.robot.commands;
 
 import org.usfirst.frc.team6203.robot.Robot;
+import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
- */
-public class TurnToHeading extends Command {
+*
+*/
+public class MoveChassisPID extends Command {
 
-	private double target;
-	private boolean dir = false;
+	double target;
+	double current;
 
-	public TurnToHeading(double heading) {
+	boolean isFinished = false;
+
+	private final double kP = 0.3;
+	private final double kI = 0.2;
+	private final double kD = 0.3;
+
+	private double P, I, D = 1;
+
+	private double p_error = 0;
+
+	public MoveChassisPID(double distance) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.chassis);
-		target = heading;
-
+		this.target = distance;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.imu.calibrate();
-		dir = target <= 180;
-
+		Robot.encoder.reset();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		current = Robot.encoder.getDistance();
+		double error = target - current;
+		P = kP * error;
+		I += kI * error;
+		D = (error - p_error) / kD;
+
+		double output = P + I + D;
+
+		Robot.chassis.tankDrive(output, output);
+
+		if (error == 0)
+			isFinished = true;
 
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
+		return isFinished;
 	}
 
 	// Called once after isFinished returns true

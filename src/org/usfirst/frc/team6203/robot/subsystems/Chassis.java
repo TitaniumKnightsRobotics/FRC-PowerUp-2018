@@ -84,4 +84,10 @@ public class Chassis extends Subsystem {
 
 	}
 
+	public void tankDrive(double a, double b) {
+		// TODO Auto-generated method stub
+		drive.tankDrive(a, b);
+		
+	}
+
 }
