@@ -3,10 +3,9 @@ package org.usfirst.frc.team6203.robot.subsystems;
 import org.usfirst.frc.team6203.robot.OI;
 import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
-import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.commands.Drive;
-import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -23,10 +22,23 @@ public class Chassis extends Subsystem {
 	private final double cos135 = -root2 / 2;
 	private final double slow_multiplier = 0.6;
 
+	private final double kP = 0.3;
+	private final double kI = 0.2;
+	private final double kD = 0.3;
+
+	private PIDController m_l_PID = new PIDController(kP, kI, kD, Robot.encoder, leftMotor);
+	private PIDController m_r_PID = new PIDController(kP, kI, kP, Robot.encoder, rightMotor);
+
 	public Chassis() {
 		leftMotor = new Victor(RobotMap.leftMotor);
 		rightMotor = new Victor(RobotMap.rightMotor);
 		drive = new DifferentialDrive(leftMotor, rightMotor);
+
+		m_l_PID.setAbsoluteTolerance(0.1);
+		m_r_PID.setAbsoluteTolerance(0.1);
+
+		m_l_PID.setOutputRange(-1, 1);
+		m_r_PID.setOutputRange(-1, 1);
 	}
 
 	public void initDefaultCommand() {
@@ -87,7 +99,27 @@ public class Chassis extends Subsystem {
 	public void tankDrive(double a, double b) {
 		// TODO Auto-generated method stub
 		drive.tankDrive(a, b);
-		
+
+	}
+
+	public void enablePIDControl() {
+		m_l_PID.enable();
+		m_r_PID.enable();
+	}
+
+	public void resetPIDControl() {
+		m_l_PID.reset();
+		m_r_PID.reset();
+	}
+
+	public void setSetpoint(double d) {
+		m_l_PID.setSetpoint(d);
+		m_r_PID.setSetpoint(d);
+	}
+
+	public void usePIDOutput() {
+		leftMotor.set(m_l_PID.get());
+		rightMotor.set(m_r_PID.get());
 	}
 
 }

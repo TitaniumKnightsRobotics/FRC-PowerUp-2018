@@ -9,19 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
 *
 */
 public class MoveChassisPID extends Command {
-
+	
 	double target;
 	double current;
 
 	boolean isFinished = false;
-
-	private final double kP = 0.3;
-	private final double kI = 0.2;
-	private final double kD = 0.3;
-
-	private double P, I, D = 1;
-
-	private double p_error = 0;
 
 	public MoveChassisPID(double distance) {
 		// Use requires() here to declare subsystem dependencies
@@ -32,23 +24,13 @@ public class MoveChassisPID extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.encoder.reset();
+		Robot.chassis.enablePIDControl();
+		Robot.chassis.setSetpoint(target);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		current = Robot.encoder.getDistance();
-		double error = target - current;
-		P = kP * error;
-		I += kI * error;
-		D = (error - p_error) / kD;
-
-		double output = P + I + D;
-
-		Robot.chassis.tankDrive(output, output);
-
-		if (error == 0)
-			isFinished = true;
-
+		Robot.chassis.usePIDOutput();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -58,6 +40,7 @@ public class MoveChassisPID extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.chassis.resetPIDControl();
 	}
 
 	// Called when another command which requires one or more of the same
