@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	public static Intake mIntake = Intake.getInstance();
 
 	// Camera and OI
-	public static OI oi;
+	public static OI oi = new OI();
 	public static CameraServer axisCam;
 	public static CameraServer usbCam;
 
@@ -57,8 +57,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-
-		oi = new OI();
 
 		axisCam = CameraServer.getInstance();
 		axisCam.addAxisCamera("Axis Camera", Constants.IP);
@@ -93,8 +91,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto Routine", chooser);
 
 		// Drive.slow = false;
-
-		Chassis.drive.setSafetyEnabled(true);
 
 	}
 
@@ -152,7 +148,12 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void testPeriodic() {
-
 		LiveWindow.run();
+	}
+
+	public static void resetSensors() {
+		imu.reset();
+		imu.calibrate();
+		encoder.reset();
 	}
 }

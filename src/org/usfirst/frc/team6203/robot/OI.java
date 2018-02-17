@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-	public static Joystick driverStick, gunnerStick;
+	public static Joystick driverStick;
 
 	public OI() {
 		driverStick = new Joystick(RobotMap.controller);

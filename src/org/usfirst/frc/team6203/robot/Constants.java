@@ -9,6 +9,7 @@ public class Constants {
 	//Drive Constants
 	public static final double kSlow_multiplier = 0.6;
 	public static final double kDistancePerPulse = Math.PI * 4;
+	public static final double kMaxMotorOutput = 0.6;
 	
 	
 	//Chassis PID control

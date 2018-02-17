@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6203.robot.commands;
 
+import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 
@@ -16,10 +17,6 @@ public class Move extends Command {
 
 	boolean isFinished = false;
 
-	private final double kP = 1.48;
-	private final double kI = 0.016;
-	private final double kD = .8;
-
 	private double P, I, D = 1;
 
 	private double error = 0;
@@ -35,10 +32,7 @@ public class Move extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.encoder.reset();
-		Robot.imu.reset();
-		Robot.imu.calibrate();
-		Robot.mChassis.disablePID();
+		Robot.resetSensors();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -46,9 +40,9 @@ public class Move extends Command {
 		current = Robot.encoder.getDistance();
 		error = target - current;
 		scaled_error = error * scale;
-		P = kP * scaled_error;
-		I += kI * scaled_error;
-		D = (scaled_error - p_error) / kD;
+		P = Constants.kDriveTrainP * scaled_error;
+		I += Constants.kDriveTrainI * scaled_error;
+		D = (scaled_error - p_error) / Constants.kDriveTrainD;
 
 		double output = P + I + D;
 
@@ -78,10 +72,7 @@ public class Move extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.encoder.reset();
-		Robot.imu.reset();
-		Robot.imu.calibrate();
-		SmartDashboard.putBoolean("PIDend", true);
+		Robot.resetSensors();
 	}
 
 	// Called when another command which requires one or more of the same
