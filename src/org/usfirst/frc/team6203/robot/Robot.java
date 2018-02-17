@@ -28,24 +28,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
-	//Subsystems
+
+	// Subsystems
 	public static Chassis mChassis = Chassis.getInstance();
 	public static Elevator mElevator = Elevator.getInstance();
 	public static Intake mIntake = Intake.getInstance();
 
-	//Camera and OI
+	// Camera and OI
 	public static OI oi;
 	public static CameraServer axisCam;
 	public static CameraServer usbCam;
-	
-	//Sensors
+
+	// Sensors
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
 	public static Counter halleffect;
 	public static Ultrasonic ultrasonic;
-	
-	//LED Strip
+
+	// LED Strip
 	public static DigitalOutput digital_output;
 
 	Command autonomousCommand;
@@ -59,30 +59,43 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 
 		oi = new OI();
+
 		axisCam = CameraServer.getInstance();
 		axisCam.addAxisCamera("Axis Camera", Constants.IP);
 		axisCam.startAutomaticCapture();
 
 		usbCam = CameraServer.getInstance();
 		usbCam.startAutomaticCapture();
-		
+
 		imu = new ADIS16448_IMU();
 		encoder = new Encoder(RobotMap.encoder_channelA, RobotMap.encoder_channelB);
-		
+
+		encoder.setDistancePerPulse(-Constants.kDistancePerPulse);
+
 		halleffect = new Counter(RobotMap.halleffect);
-		
+
 		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
-	    ultrasonic.setAutomaticMode(true);
-	    
-	    digital_output = new DigitalOutput(5);
-	    
-	    chooser.addDefault("Auto1", new Auto());
-//		chooser.addObject("Auto2", new Auto(2, 0));
-//		chooser.addObject("Auto3", new Auto(3, 0));
-//		chooser.addObject("Auto1_I", new Auto(1, 1));
-//		chooser.addObject("Auto2_I", new Auto(2, 1));
-//		chooser.addObject("Auto3_I", new Auto(3, 1));
+		ultrasonic.setAutomaticMode(true);
+
+		digital_output = new DigitalOutput(5);
+
+		chooser.addDefault("Auto1", new Auto(0, 0));
+		// chooser.addObject("Auto2", new Auto(2, 0));
+		// chooser.addObject("Auto3", new Auto(3, 0));
+		// chooser.addObject("Auto1_I", new Auto(1, 1));
+		// chooser.addObject("Auto2_I", new Auto(2, 1));
+		// chooser.addObject("Auto3_I", new Auto(3, 1));
 		SmartDashboard.putData("Auto Routine: ", chooser);
+
+		chooser.addDefault("Default Auto", new Auto(1, 1));
+		// chooser.addObject("My Auto", new MyAutoCommand());
+
+		SmartDashboard.putData("Auto Routine", chooser);
+
+		// Drive.slow = false;
+
+		Chassis.drive.setSafetyEnabled(true);
+
 	}
 
 	/**
@@ -102,6 +115,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		Robot.encoder.reset();
 		autonomousCommand = chooser.getSelected();
 
 		/*
@@ -138,6 +152,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void testPeriodic() {
+
 		LiveWindow.run();
 	}
 }
