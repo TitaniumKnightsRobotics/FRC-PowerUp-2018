@@ -76,12 +76,12 @@ public class Robot extends IterativeRobot {
 	    
 	    digital_output = new DigitalOutput(5);
 	    
-	    chooser.addDefault("Auto1", new Auto(1, 0));
-		chooser.addObject("Auto2", new Auto(2, 0));
-		chooser.addObject("Auto3", new Auto(3, 0));
-		chooser.addObject("Auto1_I", new Auto(1, 1));
-		chooser.addObject("Auto2_I", new Auto(2, 1));
-		chooser.addObject("Auto3_I", new Auto(3, 1));
+	    chooser.addDefault("Auto1", new Auto());
+//		chooser.addObject("Auto2", new Auto(2, 0));
+//		chooser.addObject("Auto3", new Auto(3, 0));
+//		chooser.addObject("Auto1_I", new Auto(1, 1));
+//		chooser.addObject("Auto2_I", new Auto(2, 1));
+//		chooser.addObject("Auto3_I", new Auto(3, 1));
 		SmartDashboard.putData("Auto Routine: ", chooser);
 	}
 
