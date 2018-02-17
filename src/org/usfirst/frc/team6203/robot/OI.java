@@ -9,11 +9,10 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-	public static Joystick driverStick, gunnerStick;
+	public static Joystick driverStick;
 
 	public OI() {
 		driverStick = new Joystick(RobotMap.controller);
-		gunnerStick = new Joystick(RobotMap.controller2);
 	}
 
 	public double getDriverStickLeftX() {
@@ -32,21 +31,6 @@ public class OI {
 		return driverStick.getRawAxis(3);
 	}
 
-	public double getGunnerStickLeftX() {
-		return gunnerStick.getRawAxis(0);
-	}
-
-	public double getGunnerStickLeftY() {
-		return gunnerStick.getRawAxis(1);
-	}
-
-	public double getGunnerStickRightX() {
-		return gunnerStick.getRawAxis(2);
-	}
-
-	public double getGunnerStickRightY() {
-		return gunnerStick.getRawAxis(3);
-	}
 
 	public JoystickButton getButton(int joystick, int button) {
 

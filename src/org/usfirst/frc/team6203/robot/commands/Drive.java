@@ -13,32 +13,32 @@ public class Drive extends Command {
 
 	public static boolean slow;
 	public boolean slow_pressed = false;
-	
+
 	public Drive() {
-		requires(Robot.chassis);
+		requires(Robot.mChassis);
 	}
 
 	protected void initialize() {
 		slow = false;
 	}
 
-	private void updateButtons(){
+	private void updateButtons() {
 		boolean slow_curr = Robot.oi.driverStick.getRawButton(RobotMap.slowspeed);
 		if (!slow_pressed && slow_curr)
 			slow = !slow;
-		
+
 		slow_pressed = slow_curr;
-		
-		Robot.digit.set(Robot.oi.driverStick.getRawButton(1));
+
+		Robot.digital_output.set(Robot.oi.driverStick.getRawButton(1));
 		SmartDashboard.putBoolean("BUTTON THING", Robot.oi.driverStick.getRawButton(1));
 	}
-	
+
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		updateButtons();
-		
-		Robot.chassis.tankDrive();
-//		Robot.chassis.arcadeDrive();
+
+		Robot.mChassis.tankDrive();
+		// Robot.chassis.arcadeDrive();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
