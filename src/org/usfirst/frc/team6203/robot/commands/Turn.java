@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
 *
 */
-public class TurnChassis extends Command {
+public class Turn extends Command {
 	public double targetDegrees;
 	public double speed; // 0 to 1
 	public double degreeRange = 10;
@@ -18,7 +18,7 @@ public class TurnChassis extends Command {
 	boolean isFinished = false;
 	private final double minSpeed = 0.55;
 
-	public TurnChassis(double degrees, double speed) {
+	public Turn(double degrees, double speed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.chassis);

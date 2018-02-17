@@ -2,8 +2,7 @@ package org.usfirst.frc.team6203.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team6203.robot.commands.Drive;
-import org.usfirst.frc.team6203.robot.commands.MoveChassis;
-import org.usfirst.frc.team6203.robot.commands.TurnChassis;
+import org.usfirst.frc.team6203.robot.commands.Turn;
 
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
@@ -32,7 +31,7 @@ public class Auto extends CommandGroup {
 //		addSequential(new MoveChassisPID(200));
 //		addSequential(new TurnChassis(-180, 0.8));
 //		addSequential(new Wait(10));
-		addSequential(new MoveChassisPID(200));
+		addSequential(new Move(200));
 //		addSequential(new Wait(3));
 //		addSequential(new TurnChassis(-180, 0.8));
 //		addSequential(new Wait(3));

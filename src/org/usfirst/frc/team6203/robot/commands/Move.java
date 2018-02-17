@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
 *
 */
-public class MoveChassisPID extends Command {
+public class Move extends Command {
 
 	double target;
 	double current;
@@ -27,7 +27,7 @@ public class MoveChassisPID extends Command {
 	private double scaled_error = 0;
 	private double scale = 0.001;
 
-	public MoveChassisPID(double distance) {
+	public Move(double distance) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		this.target = distance;
