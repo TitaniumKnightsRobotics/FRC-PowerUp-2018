@@ -29,7 +29,7 @@ public class Drive extends Command {
 
 		slow_pressed = slow_curr;
 
-		Robot.digit.set(Robot.oi.driverStick.getRawButton(1));
+		Robot.digital_output.set(Robot.oi.driverStick.getRawButton(1));
 		SmartDashboard.putBoolean("BUTTON THING", Robot.oi.driverStick.getRawButton(1));
 	}
 

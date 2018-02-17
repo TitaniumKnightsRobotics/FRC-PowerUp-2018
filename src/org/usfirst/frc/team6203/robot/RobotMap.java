@@ -8,12 +8,12 @@ package org.usfirst.frc.team6203.robot;
  */
 public class RobotMap {
 
-	
+	//Drivetrain Motors
 	public static int leftMotor = 0;
 	public static int rightMotor = 1;
 	
+	//Controllers
 	public static int controller = 0;
-	public static int controller2 = 1;
 	
 	public static int elevatorMotor = 2;
 

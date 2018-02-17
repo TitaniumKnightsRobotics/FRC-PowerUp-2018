@@ -1,8 +1,8 @@
 
 package org.usfirst.frc.team6203.robot;
 
+import org.usfirst.frc.team6203.robot.commands.Auto;
 import org.usfirst.frc.team6203.robot.commands.Drive;
-import org.usfirst.frc.team6203.robot.commands.Move_Detect;
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 import org.usfirst.frc.team6203.robot.subsystems.Elevator;
@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 	public static Ultrasonic ultrasonic;
 	
 	//LED Strip
-	public static DigitalOutput digit;
+	public static DigitalOutput digital_output;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -58,12 +58,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 
-		// Instantiate subsystems
-		
-		
 		oi = new OI();
 		axisCam = CameraServer.getInstance();
-		axisCam.addAxisCamera("test", Constants.IP);
+		axisCam.addAxisCamera("Axis Camera", Constants.IP);
 		axisCam.startAutomaticCapture();
 
 		usbCam = CameraServer.getInstance();
@@ -77,10 +74,15 @@ public class Robot extends IterativeRobot {
 		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
 	    ultrasonic.setAutomaticMode(true);
 	    
-	    digit = new DigitalOutput(5);
-		
-		chooser.addDefault("Default Auto", new Move_Detect());
-		SmartDashboard.putData("Auto Routine", chooser);
+	    digital_output = new DigitalOutput(5);
+	    
+	    chooser.addDefault("Auto1", new Auto(1, 0));
+		chooser.addObject("Auto2", new Auto(2, 0));
+		chooser.addObject("Auto3", new Auto(3, 0));
+		chooser.addObject("Auto1_I", new Auto(1, 1));
+		chooser.addObject("Auto2_I", new Auto(2, 1));
+		chooser.addObject("Auto3_I", new Auto(3, 1));
+		SmartDashboard.putData("Auto Routine: ", chooser);
 
 	}
 
