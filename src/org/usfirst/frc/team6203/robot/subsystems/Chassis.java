@@ -93,8 +93,8 @@ public class Chassis extends Subsystem {
 			dir *= Constants.kSlow_multiplier;
 		}
 
-		SmartDashboard.putNumber("magnitude", mag);
-		SmartDashboard.putNumber("direction", dir);
+		SmartDashboard.putNumber("Joystick_mag", mag);
+		SmartDashboard.putNumber("Joystick_dir", dir);
 
 		drive.arcadeDrive(mag, dir);
 
@@ -125,5 +125,11 @@ public class Chassis extends Subsystem {
 		leftMotor.set(m_l_PID.get());
 		rightMotor.set(m_r_PID.get());
 	}
+	
+	public void publishValues(){
+		SmartDashboard.putNumber("PIDOutputL", m_l_PID.get());
+		SmartDashboard.putNumber("PIDOutputR", m_r_PID.get());
+	}
+	
 
 }

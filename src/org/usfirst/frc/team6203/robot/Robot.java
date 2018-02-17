@@ -83,7 +83,6 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Auto2_I", new Auto(2, 1));
 		chooser.addObject("Auto3_I", new Auto(3, 1));
 		SmartDashboard.putData("Auto Routine: ", chooser);
-
 	}
 
 	/**
@@ -134,16 +133,11 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("ultrasonic: ", ultrasonic.getRangeInches());
-
 		Scheduler.getInstance().run();
 	}
 
 	@Override
 	public void testPeriodic() {
-		SmartDashboard.putNumber("Hall Effect", halleffect.get());
-		SmartDashboard.putNumber("ultrasonic", ultrasonic.getRangeMM());
-
 		LiveWindow.run();
 	}
 }
