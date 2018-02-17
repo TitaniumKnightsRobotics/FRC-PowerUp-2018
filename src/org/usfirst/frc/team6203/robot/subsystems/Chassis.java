@@ -1,12 +1,12 @@
 package org.usfirst.frc.team6203.robot.subsystems;
 
+import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.OI;
 import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
-import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.commands.Drive;
-import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -18,6 +18,9 @@ public class Chassis extends Subsystem {
 	public static Victor rightMotor;
 	public static DifferentialDrive drive;
 
+	private PIDController m_l_PID;
+	private PIDController m_r_PID;
+
 	private final double root2 = Math.sqrt(2);
 	private final double sin135 = root2 / 2;
 	private final double cos135 = -root2 / 2;
@@ -27,6 +30,19 @@ public class Chassis extends Subsystem {
 		leftMotor = new Victor(RobotMap.leftMotor);
 		rightMotor = new Victor(RobotMap.rightMotor);
 		drive = new DifferentialDrive(leftMotor, rightMotor);
+		m_l_PID = new PIDController(Constants.kDriveTrainP, Constants.kDriveTrainI, Constants.kDriveTrainD,
+				Robot.encoder, leftMotor);
+		m_r_PID = new PIDController(Constants.kDriveTrainP, Constants.kDriveTrainI, Constants.kDriveTrainD,
+				Robot.encoder, rightMotor);
+
+		m_l_PID.setAbsoluteTolerance(0.2);
+		m_r_PID.setAbsoluteTolerance(0.2);
+
+		m_l_PID.setOutputRange(-0.5, 0.5);
+		m_r_PID.setOutputRange(-0.5, 0.5);
+
+		drive.setMaxOutput(0.5);
+
 	}
 
 	public void initDefaultCommand() {
@@ -35,7 +51,7 @@ public class Chassis extends Subsystem {
 
 	public void simpleDrive(double speed) {
 		leftMotor.set(speed);
-		rightMotor.set(speed);
+		rightMotor.set(-speed);
 	}
 
 	public void turn(double speed, boolean d) {
@@ -46,6 +62,10 @@ public class Chassis extends Subsystem {
 			leftMotor.set(speed);
 			rightMotor.set(-speed);
 		}
+	}
+
+	public void tankDrive(double a, double b) {
+		drive.tankDrive(a, b);
 	}
 
 	public void tankDrive() {
@@ -84,4 +104,31 @@ public class Chassis extends Subsystem {
 
 	}
 
+	public void enablePIDControl() {
+		m_l_PID.enable();
+		m_r_PID.enable();
+	}
+
+	public void resetPIDControl() {
+		m_l_PID.reset();
+		m_r_PID.reset();
+	}
+
+	public void setSetpoint(double s) {
+		m_l_PID.setSetpoint(s);
+		m_r_PID.setSetpoint(s);
+	}
+
+	public void usePIDOutput() {
+		leftMotor.set(m_r_PID.get());
+		rightMotor.set(m_r_PID.get());
+	}
+	
+	public boolean onTarget(){
+		return m_r_PID.onTarget();
+	}
+	public void disablePID() {
+		m_l_PID.disable();
+		m_r_PID.disable();
+	}
 }

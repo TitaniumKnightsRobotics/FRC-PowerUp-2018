@@ -1,8 +1,8 @@
 
 package org.usfirst.frc.team6203.robot;
 
+import org.usfirst.frc.team6203.robot.commands.Auto;
 import org.usfirst.frc.team6203.robot.commands.Drive;
-import org.usfirst.frc.team6203.robot.commands.Move_Detect;
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 import org.usfirst.frc.team6203.robot.subsystems.Elevator;
@@ -39,6 +39,8 @@ public class Robot extends IterativeRobot {
 
 	public static Ultrasonic ultrasonic;
 	public static DigitalOutput digit;
+	
+	public static boolean closeToSomething;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -52,8 +54,8 @@ public class Robot extends IterativeRobot {
 
 		// Instantiate subsystems
 		oi = new OI();
-		chassis = new Chassis();
-
+	
+		
 		axisCam = CameraServer.getInstance();
 		axisCam.addAxisCamera("test", Constants.IP);
 		axisCam.startAutomaticCapture();
@@ -63,19 +65,27 @@ public class Robot extends IterativeRobot {
 		
 		imu = new ADIS16448_IMU();
 		encoder = new Encoder(RobotMap.encoder_channelA, RobotMap.encoder_channelB);
+		encoder.setDistancePerPulse(-Constants.kDistancePerPulse);
+		
+		
 		halleffect = new Counter(RobotMap.halleffect);
 		
 		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
 	    ultrasonic.setAutomaticMode(true);
 	    
+	    closeToSomething = false;
+	    
 	    digit = new DigitalOutput(5);
-		
-		chooser.addDefault("Default Auto", new Move_Detect());
+	    
+		chooser.addDefault("Default Auto", new Auto(1,1));
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		SmartDashboard.putData("Auto Routine", chooser);
 
 		//Drive.slow = false;
+		chassis = new Chassis();
+		Chassis.drive.setSafetyEnabled(true);
+		
 	}
 
 	/**
@@ -106,6 +116,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		Robot.encoder.reset();
 		autonomousCommand = chooser.getSelected();
 
 		/*
@@ -158,7 +169,8 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		SmartDashboard.putNumber("Hall Effect", halleffect.get());
 
-		SmartDashboard.putNumber("ultrasonic", ultrasonic.getRangeMM());
+		//closeToSomething = ultrasonic.getRangeInches() < Constants.ultrasonicThreshold;
+		SmartDashboard.putBoolean("close to something", closeToSomething);
 
 		LiveWindow.run();
 	}

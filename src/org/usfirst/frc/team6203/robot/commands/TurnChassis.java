@@ -4,57 +4,80 @@ import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
 *
 */
 public class TurnChassis extends Command {
-    public double targetDegrees;
-    public double speed;	// 0 to 1
-    public double degreeRange = 10;
-    public double cur_angle;
-    boolean isFinished = false;
-    
-   public TurnChassis(double degrees, double speed) {
-       // Use requires() here to declare subsystem dependencies
-       // eg. requires(chassis);
-       requires(Robot.chassis);
-       this.targetDegrees = degrees;
-       this.speed = speed;
-   }
+	public double targetDegrees;
+	public double speed; // 0 to 1
+	public double degreeRange = 10;
+	public double degreeThreshold = .5;
+	public double cur_angle;
+	boolean isFinished = false;
+	private final double minSpeed = 0.55;
 
-   // Called just before this Command runs the first time
-   protected void initialize() {
-       Robot.imu.calibrate();
-   }
+	public TurnChassis(double degrees, double speed) {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+		requires(Robot.chassis);
+		this.targetDegrees = degrees;
+		this.speed = speed;
+	}
 
-   // Called repeatedly when this Command is scheduled to run
-   protected void execute() {
-       cur_angle = Robot.imu.getAngleZ();
-       if (cur_angle < targetDegrees) {
-           Chassis.drive.tankDrive(speed, -speed);
-       }
-       else if (cur_angle > targetDegrees) {
-           Chassis.drive.tankDrive(-speed, speed);
-       }
-       // Robot will stop if it is within a certain range of the target
-       if (cur_angle > targetDegrees - degreeRange && cur_angle < targetDegrees + degreeRange) {
-    	   isFinished = true;
-       }
-   }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		Robot.imu.reset();
+		Robot.imu.calibrate();
+	}
 
-   // Make this return true when this Command no longer needs to run execute()
-   protected boolean isFinished() {
-       return isFinished;
-   }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		cur_angle = Robot.imu.getAngleZ();
+		SmartDashboard.putNumber("cur_angle", cur_angle);
+		SmartDashboard.putNumber("targetDegrees", targetDegrees);
+//		if (cur_angle < targetDegrees) {
+//			Robot.chassis.tankDrive(speed, -speed);
+//		} 
+//			else if (cur_angle > targetDegrees) {
+//			Robot.chassis.tankDrive(-speed, speed);
+//		}
+		// Robot will stop if it is within a certain range of the target
+//		if (cur_angle > targetDegrees - degreeRange && cur_angle < targetDegrees + degreeRange) {
+		double newSpeed = (cur_angle - targetDegrees < 0 ? 1 : -1) * speed * Math.pow(Math.abs((cur_angle - targetDegrees) / targetDegrees), 1);
+		if(newSpeed >= 0){
+			newSpeed = newSpeed < minSpeed ? minSpeed : newSpeed;
+		}else{
+			newSpeed = newSpeed > -minSpeed ? -minSpeed : newSpeed;
+		}
+		Robot.chassis.tankDrive(newSpeed,-newSpeed);
+		SmartDashboard.putNumber("newSpeed", newSpeed);
+			// isFinished = true;
+//		}
+		if (cur_angle > targetDegrees - degreeThreshold && cur_angle < targetDegrees + degreeThreshold) {
+			Robot.chassis.tankDrive(0,0);
+			isFinished = true;
+		}
+		SmartDashboard.putNumber("Left motor", Robot.chassis.leftMotor.get());
+		SmartDashboard.putNumber("Right motor", Robot.chassis.rightMotor.get());
+	}
 
-   // Called once after isFinished returns true
-   protected void end() {
-   }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		SmartDashboard.putBoolean("isFinished", isFinished);
+		return isFinished;
+	}
 
-   // Called when another command which requires one or more of the same
-   // subsystems is scheduled to run
-   protected void interrupted() {
-   }
+	// Called once after isFinished returns true
+	protected void end() {
+		Robot.encoder.reset();
+		Robot.imu.reset();
+		Robot.imu.calibrate();
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }
- 
