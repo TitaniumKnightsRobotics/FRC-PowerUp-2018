@@ -5,10 +5,11 @@ public class Constants {
 	//IP
 	public static final String IP = "10.62.3.52";
 	
-	public static final double kDistancePerPulse = Math.PI * 4;
-	
+
 	//Drive Constants
 	public static final double kSlow_multiplier = 0.6;
+	public static final double kDistancePerPulse = Math.PI * 4;
+	
 	
 	//Chassis PID control
 	public static final double kDriveTrainP = 1.1;

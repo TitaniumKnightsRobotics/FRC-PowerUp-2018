@@ -12,7 +12,7 @@ public class UltrasonicTest extends Command {
     public UltrasonicTest() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.chassis);
+    	requires(Robot.mChassis);
     }
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -20,11 +20,7 @@ public class UltrasonicTest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!!Robot.closeToSomething){
-    		Robot.chassis.drive.tankDrive(0.3, 0.3);
-    	}else{
-    		Robot.chassis.drive.tankDrive(0, 0);
-    	}
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

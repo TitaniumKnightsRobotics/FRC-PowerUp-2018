@@ -21,7 +21,7 @@ public class Turn extends Command {
 	public Turn(double degrees, double speed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.chassis);
+		requires(Robot.mChassis);
 		this.targetDegrees = degrees;
 		this.speed = speed;
 	}
@@ -37,30 +37,22 @@ public class Turn extends Command {
 		cur_angle = Robot.imu.getAngleZ();
 		SmartDashboard.putNumber("cur_angle", cur_angle);
 		SmartDashboard.putNumber("targetDegrees", targetDegrees);
-//		if (cur_angle < targetDegrees) {
-//			Robot.chassis.tankDrive(speed, -speed);
-//		} 
-//			else if (cur_angle > targetDegrees) {
-//			Robot.chassis.tankDrive(-speed, speed);
-//		}
-		// Robot will stop if it is within a certain range of the target
-//		if (cur_angle > targetDegrees - degreeRange && cur_angle < targetDegrees + degreeRange) {
-		double newSpeed = (cur_angle - targetDegrees < 0 ? 1 : -1) * speed * Math.pow(Math.abs((cur_angle - targetDegrees) / targetDegrees), 1);
-		if(newSpeed >= 0){
+
+		double newSpeed = (cur_angle - targetDegrees < 0 ? 1 : -1) * speed
+				* Math.pow(Math.abs((cur_angle - targetDegrees) / targetDegrees), 1);
+		if (newSpeed >= 0) {
 			newSpeed = newSpeed < minSpeed ? minSpeed : newSpeed;
-		}else{
+		} else {
 			newSpeed = newSpeed > -minSpeed ? -minSpeed : newSpeed;
 		}
-		Robot.chassis.tankDrive(newSpeed,-newSpeed);
+		Robot.mChassis.tankDrive(newSpeed, -newSpeed);
 		SmartDashboard.putNumber("newSpeed", newSpeed);
-			// isFinished = true;
-//		}
+
 		if (cur_angle > targetDegrees - degreeThreshold && cur_angle < targetDegrees + degreeThreshold) {
-			Robot.chassis.tankDrive(0,0);
+			Robot.mChassis.tankDrive(0, 0);
 			isFinished = true;
 		}
-		SmartDashboard.putNumber("Left motor", Robot.chassis.leftMotor.get());
-		SmartDashboard.putNumber("Right motor", Robot.chassis.rightMotor.get());
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

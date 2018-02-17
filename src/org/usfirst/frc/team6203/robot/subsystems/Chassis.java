@@ -14,8 +14,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem {
 
+	private static Chassis mInstance = new Chassis();
+
+	public static Chassis getInstance() {
+		return mInstance;
+	}
+
+	// Motors
 	public static Victor leftMotor;
 	public static Victor rightMotor;
+
+	// Drive control
 	public static DifferentialDrive drive;
 
 	private PIDController m_l_PID;
@@ -30,6 +39,7 @@ public class Chassis extends Subsystem {
 		leftMotor = new Victor(RobotMap.leftMotor);
 		rightMotor = new Victor(RobotMap.rightMotor);
 		drive = new DifferentialDrive(leftMotor, rightMotor);
+
 		m_l_PID = new PIDController(Constants.kDriveTrainP, Constants.kDriveTrainI, Constants.kDriveTrainD,
 				Robot.encoder, leftMotor);
 		m_r_PID = new PIDController(Constants.kDriveTrainP, Constants.kDriveTrainI, Constants.kDriveTrainD,
@@ -42,6 +52,7 @@ public class Chassis extends Subsystem {
 		m_r_PID.setOutputRange(-0.5, 0.5);
 
 		drive.setMaxOutput(0.5);
+
 
 	}
 
@@ -77,12 +88,12 @@ public class Chassis extends Subsystem {
 		double y = Robot.oi.driverStick.getY();
 
 		if (Drive.slow) {
-			x *= slow_multiplier;
-			y *= slow_multiplier;
+			x *= Constants.kSlow_multiplier;
+			y *= Constants.kSlow_multiplier;
 		}
 
-		double b = cos135 * x - sin135 * y;
-		double a = sin135 * x + cos135 * y;
+		double b = (-Math.sqrt(2) / 2) * x - (Math.sqrt(2) / 2) * y;
+		double a = (Math.sqrt(2) / 2) * x + (-Math.sqrt(2) / 2) * y;
 
 		drive.tankDrive(a, b);
 	}
@@ -93,16 +104,17 @@ public class Chassis extends Subsystem {
 		double dir = Robot.oi.driverStick.getDirectionDegrees() / 180 - 1;
 
 		if (Drive.slow) {
-			mag *= slow_multiplier;
-			dir *= slow_multiplier;
+			mag *= Constants.kSlow_multiplier;
+			dir *= Constants.kSlow_multiplier;
 		}
 
-		SmartDashboard.putNumber("magnitude", mag);
-		SmartDashboard.putNumber("direction", dir);
+		SmartDashboard.putNumber("Joystick_mag", mag);
+		SmartDashboard.putNumber("Joystick_dir", dir);
 
 		drive.arcadeDrive(mag, dir);
 
 	}
+
 
 	public void enablePIDControl() {
 		m_l_PID.enable();
@@ -120,15 +132,24 @@ public class Chassis extends Subsystem {
 	}
 
 	public void usePIDOutput() {
-		leftMotor.set(m_r_PID.get());
+		leftMotor.set(m_l_PID.get());
 		rightMotor.set(m_r_PID.get());
 	}
 	
 	public boolean onTarget(){
-		return m_r_PID.onTarget();
+
+		return m_l_PID.onTarget() && m_r_PID.onTarget();
 	}
+	
+	public void publishValues(){
+		SmartDashboard.putNumber("PIDOutputL", m_l_PID.get());
+		SmartDashboard.putNumber("PIDOutputR", m_r_PID.get());
+	}
+
+
 	public void disablePID() {
 		m_l_PID.disable();
 		m_r_PID.disable();
 	}
+
 }

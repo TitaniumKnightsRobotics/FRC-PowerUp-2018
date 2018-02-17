@@ -38,7 +38,7 @@ public class Move extends Command {
 		Robot.encoder.reset();
 		Robot.imu.reset();
 		Robot.imu.calibrate();
-		Robot.chassis.disablePID();
+		Robot.mChassis.disablePID();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -60,11 +60,11 @@ public class Move extends Command {
 		double correction = theta * 0.035;
 		SmartDashboard.putNumber("correction", correction);
 		if (theta < 0)
-			Robot.chassis.tankDrive(output + correction, output);
+			Robot.mChassis.tankDrive(output + correction, output);
 		else if (theta > 0)
-			Robot.chassis.tankDrive(output, output + correction);
+			Robot.mChassis.tankDrive(output, output + correction);
 		else
-			Robot.chassis.tankDrive(output, output);
+			Robot.mChassis.tankDrive(output, output);
 
 		if (Math.abs(error) < 0.1)
 			isFinished = true;

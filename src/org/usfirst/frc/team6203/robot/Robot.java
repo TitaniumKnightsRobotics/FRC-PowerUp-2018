@@ -6,6 +6,7 @@ import org.usfirst.frc.team6203.robot.commands.Drive;
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 import org.usfirst.frc.team6203.robot.subsystems.Elevator;
+import org.usfirst.frc.team6203.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Counter;
@@ -28,19 +29,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
+	// Subsystems
+	public static Chassis mChassis = Chassis.getInstance();
+	public static Elevator mElevator = Elevator.getInstance();
+	public static Intake mIntake = Intake.getInstance();
+
+	// Camera and OI
 	public static OI oi;
-	public static Chassis chassis;
 	public static CameraServer axisCam;
 	public static CameraServer usbCam;
-	public static Elevator elevator;
+
+	// Sensors
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
 	public static Counter halleffect;
-
 	public static Ultrasonic ultrasonic;
-	public static DigitalOutput digit;
-	
-	public static boolean closeToSomething;
+
+	// LED Strip
+	public static DigitalOutput digital_output;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -52,40 +58,44 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 
-		// Instantiate subsystems
 		oi = new OI();
-	
-		
+
 		axisCam = CameraServer.getInstance();
-		axisCam.addAxisCamera("test", Constants.IP);
+		axisCam.addAxisCamera("Axis Camera", Constants.IP);
 		axisCam.startAutomaticCapture();
 
 		usbCam = CameraServer.getInstance();
 		usbCam.startAutomaticCapture();
-		
+
 		imu = new ADIS16448_IMU();
 		encoder = new Encoder(RobotMap.encoder_channelA, RobotMap.encoder_channelB);
+
 		encoder.setDistancePerPulse(-Constants.kDistancePerPulse);
-		
-		
+
 		halleffect = new Counter(RobotMap.halleffect);
-		
+
 		ultrasonic = new Ultrasonic(RobotMap.ultrasonic1, RobotMap.ultrasonic2);
-	    ultrasonic.setAutomaticMode(true);
-	    
-	    closeToSomething = false;
-	    
-	    digit = new DigitalOutput(5);
-	    
-		chooser.addDefault("Default Auto", new Auto(1,1));
+		ultrasonic.setAutomaticMode(true);
+
+		digital_output = new DigitalOutput(5);
+
+		chooser.addDefault("Auto1", new Auto(0, 0));
+		// chooser.addObject("Auto2", new Auto(2, 0));
+		// chooser.addObject("Auto3", new Auto(3, 0));
+		// chooser.addObject("Auto1_I", new Auto(1, 1));
+		// chooser.addObject("Auto2_I", new Auto(2, 1));
+		// chooser.addObject("Auto3_I", new Auto(3, 1));
+		SmartDashboard.putData("Auto Routine: ", chooser);
+
+		chooser.addDefault("Default Auto", new Auto(1, 1));
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		SmartDashboard.putData("Auto Routine", chooser);
 
-		//Drive.slow = false;
-		chassis = new Chassis();
+		// Drive.slow = false;
+
 		Chassis.drive.setSafetyEnabled(true);
-		
+
 	}
 
 	/**
@@ -103,17 +113,6 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
 	@Override
 	public void autonomousInit() {
 		Robot.encoder.reset();
@@ -126,7 +125,6 @@ public class Robot extends IterativeRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 
-		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -141,36 +139,19 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 
 		Drive.slow = false;
-
 	}
 
-	/**
-	 * This function is called periodically during operator control
-	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("ultrasonic: ", ultrasonic.getRangeInches());
-
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
 	@Override
 	public void testPeriodic() {
-		SmartDashboard.putNumber("Hall Effect", halleffect.get());
-
-		//closeToSomething = ultrasonic.getRangeInches() < Constants.ultrasonicThreshold;
-		SmartDashboard.putBoolean("close to something", closeToSomething);
 
 		LiveWindow.run();
 	}
