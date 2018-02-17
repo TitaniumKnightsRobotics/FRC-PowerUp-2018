@@ -2,7 +2,6 @@ package org.usfirst.frc.team6203.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team6203.robot.commands.Drive;
-import org.usfirst.frc.team6203.robot.commands.MoveChassis;
 import org.usfirst.frc.team6203.robot.commands.TurnChassis;
 
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
