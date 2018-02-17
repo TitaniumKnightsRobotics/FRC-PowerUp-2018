@@ -35,7 +35,7 @@ public class MoveChassisPID extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isFinished;
+		return Robot.mChassis.onTarget();
 	}
 
 	// Called once after isFinished returns true

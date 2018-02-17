@@ -126,6 +126,10 @@ public class Chassis extends Subsystem {
 		rightMotor.set(m_r_PID.get());
 	}
 	
+	public boolean onTarget(){
+		return m_l_PID.onTarget() && m_r_PID.onTarget();
+	}
+	
 	public void publishValues(){
 		SmartDashboard.putNumber("PIDOutputL", m_l_PID.get());
 		SmartDashboard.putNumber("PIDOutputR", m_r_PID.get());
