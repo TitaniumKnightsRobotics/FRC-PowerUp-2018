@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6203.robot.subsystems;
 
+import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.OI;
 import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
@@ -13,21 +14,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem {
 
+	//Motors
 	public static Victor leftMotor;
 	public static Victor rightMotor;
+	
+	//Drive control
 	public static DifferentialDrive drive;
 
-	private final double root2 = Math.sqrt(2);
-	private final double sin135 = root2 / 2;
-	private final double cos135 = -root2 / 2;
-	private final double slow_multiplier = 0.6;
-
-	private final double kP = 0.3;
-	private final double kI = 0.2;
-	private final double kD = 0.3;
-
-	private PIDController m_l_PID = new PIDController(kP, kI, kD, Robot.encoder, leftMotor);
-	private PIDController m_r_PID = new PIDController(kP, kI, kP, Robot.encoder, rightMotor);
+	//PID controllers
+	private PIDController m_l_PID = new PIDController(Constants.kDriveTrainP, Constants.kDriveTrainI,
+			Constants.kDriveTrainD, Robot.encoder, leftMotor);
+	private PIDController m_r_PID = new PIDController(Constants.kDriveTrainP, Constants.kDriveTrainI,
+			Constants.kDriveTrainD, Robot.encoder, rightMotor);
 
 	public Chassis() {
 		leftMotor = new Victor(RobotMap.leftMotor);
@@ -69,12 +67,12 @@ public class Chassis extends Subsystem {
 		double y = Robot.oi.driverStick.getY();
 
 		if (Drive.slow) {
-			x *= slow_multiplier;
-			y *= slow_multiplier;
+			x *= Constants.kSlow_multiplier;
+			y *= Constants.kSlow_multiplier;
 		}
 
-		double b = cos135 * x - sin135 * y;
-		double a = sin135 * x + cos135 * y;
+		double b = (-Math.sqrt(2) / 2) * x - (Math.sqrt(2) / 2) * y;
+		double a = (Math.sqrt(2) / 2) * x + (-Math.sqrt(2) / 2) * y;
 
 		drive.tankDrive(a, b);
 	}
@@ -85,8 +83,8 @@ public class Chassis extends Subsystem {
 		double dir = Robot.oi.driverStick.getDirectionDegrees() / 180 - 1;
 
 		if (Drive.slow) {
-			mag *= slow_multiplier;
-			dir *= slow_multiplier;
+			mag *= Constants.kSlow_multiplier;
+			dir *= Constants.kSlow_multiplier;
 		}
 
 		SmartDashboard.putNumber("magnitude", mag);
@@ -112,9 +110,9 @@ public class Chassis extends Subsystem {
 		m_r_PID.reset();
 	}
 
-	public void setSetpoint(double d) {
-		m_l_PID.setSetpoint(d);
-		m_r_PID.setSetpoint(d);
+	public void setSetpoint(double s) {
+		m_l_PID.setSetpoint(s);
+		m_r_PID.setSetpoint(s);
 	}
 
 	public void usePIDOutput() {
