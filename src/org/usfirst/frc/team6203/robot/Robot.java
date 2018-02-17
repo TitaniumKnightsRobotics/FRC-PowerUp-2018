@@ -10,6 +10,7 @@ import org.usfirst.frc.team6203.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -39,11 +40,12 @@ public class Robot extends IterativeRobot {
 	public static CameraServer axisCam;
 	public static CameraServer usbCam;
 
-	// Sensors
+	// Sensors/Actuators
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
 	public static Counter halleffect;
 	public static Ultrasonic ultrasonic;
+	public static DigitalInput limit_switch;
 
 	// LED Strip
 	public static DigitalOutput digital_output;
@@ -76,6 +78,7 @@ public class Robot extends IterativeRobot {
 		ultrasonic.setAutomaticMode(true);
 
 		digital_output = new DigitalOutput(5);
+		limit_switch = new DigitalInput(RobotMap.limit_switch);
 
 		chooser.addDefault("Auto1", new Auto(0, 0));
 		// chooser.addObject("Auto2", new Auto(2, 0));

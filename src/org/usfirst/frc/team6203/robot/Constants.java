@@ -16,5 +16,10 @@ public class Constants {
 	public static final double kDriveTrainP = 1.1;
 	public static final double kDriveTrainI = 0.016;
 	public static final double kDriveTrainD = 0.8;
+	
+	//Intake
+	public static final double kIntakeSpeed = 0.3;
+	public static final double kDepositSpeed = 0.2;
+	public static final double kIntakeP = 0.3;
 
 }

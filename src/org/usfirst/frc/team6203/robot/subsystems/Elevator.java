@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6203.robot.subsystems;
 
+import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Counter;

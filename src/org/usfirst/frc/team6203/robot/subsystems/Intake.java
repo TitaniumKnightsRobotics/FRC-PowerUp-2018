@@ -1,14 +1,18 @@
 package org.usfirst.frc.team6203.robot.subsystems;
 
+import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class Intake extends Subsystem {
+
+	// TODO: Implement PID control for motors
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -19,14 +23,20 @@ public class Intake extends Subsystem {
 		return mInstance;
 	}
 
-	private Victor intake_motor;
+	private Victor intake_master;
+	private Victor intake_slave;
+	private State state;
 
 	public enum State {
-		INTAKE, DEPOSIT, IDLE, DISABLED;
+		READY, DEPOSIT, IDLE, DISABLED, OCCUPIED, SPINNING;
 	}
 
 	public Intake() {
-		intake_motor = new Victor(RobotMap.intakeMotor);
+		intake_master = new Victor(RobotMap.intakeMotor);
+		intake_slave = new Victor(RobotMap.intakeMotor);
+		intake_master.setBounds(0.3, 0.3, 0, -0.3, -0.3);
+		intake_slave.setBounds(0.3, 0.3, 0, -0.3, -0.3);
+		state = State.DISABLED;
 	}
 
 	public void initDefaultCommand() {
@@ -35,9 +45,54 @@ public class Intake extends Subsystem {
 	}
 
 	public void setIntake(State s) {
+		state = s;
+	}
 
-		// todo
+	public void intakeLoop() {
+		switch (this.state) {
+		case IDLE:
+			setIntakeMotor(0);
+			break;
+		case DISABLED:
+			setIntakeMotor(0);
+			intake_master.setDisabled();
+			intake_slave.setDisabled();
+			break;
+		case SPINNING:
+			setIntakeMotor(Constants.kIntakeSpeed);
+			break;
+		case READY:
+			setIntakeMotor(Constants.kIntakeSpeed);
+			break;
+		case OCCUPIED:
+			setIntakeMotor(0);
+			break;
+		case DEPOSIT:
+			setIntakeMotor(Constants.kDepositSpeed);
+			break;
+		default:
+			this.state = State.IDLE;
+			break;
+		}
+	}
 
+	//figure out how to use this shit
+	public double getPIDOutput() {
+		return Constants.kIntakeP * (intake_master.getSpeed() - intake_slave.getSpeed());
+	}
+
+	public void setIntakeMotor(double s) {
+		intake_master.set(s);
+		intake_slave.set(s);
+	}
+
+	public boolean isReadyforIntake() {
+		return Math.abs(Constants.kIntakeSpeed - intake_master.getSpeed()) < 0.2;
+	}
+
+	public void publishValues() {
+		SmartDashboard.putNumber("v_IntakeM", intake_master.getSpeed());
+		SmartDashboard.putNumber("v_IntakeS", intake_slave.getSpeed());
 	}
 
 }
