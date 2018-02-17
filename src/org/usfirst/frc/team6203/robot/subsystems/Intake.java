@@ -13,8 +13,13 @@ public class Intake extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
-	Victor intake_motor;
-	final double k = 5.0;
+	private static Intake mInstance = new Intake();
+
+	public static Intake getInstance() {
+		return mInstance;
+	}
+
+	private Victor intake_motor;
 
 	public enum State {
 		INTAKE, DEPOSIT, IDLE, DISABLED;
@@ -30,8 +35,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void setIntake(State s) {
-		
-		//todo
+
+		// todo
 
 	}
 

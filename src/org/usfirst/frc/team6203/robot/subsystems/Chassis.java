@@ -14,14 +14,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem {
 
-	//Motors
+	private static Chassis mInstance = new Chassis();
+
+	public static Chassis getInstance() {
+		return mInstance;
+	}
+
+	// Motors
 	public static Victor leftMotor;
 	public static Victor rightMotor;
-	
-	//Drive control
+
+	// Drive control
 	public static DifferentialDrive drive;
 
-	//PID controllers
+	// PID controllers
 	private PIDController m_l_PID = new PIDController(Constants.kDriveTrainP, Constants.kDriveTrainI,
 			Constants.kDriveTrainD, Robot.encoder, leftMotor);
 	private PIDController m_r_PID = new PIDController(Constants.kDriveTrainP, Constants.kDriveTrainI,

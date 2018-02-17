@@ -16,7 +16,7 @@ public class Move_Detect extends Command {
 	public Move_Detect() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.chassis);
+		requires(Robot.mChassis);
 
 	}
 
@@ -32,46 +32,46 @@ public class Move_Detect extends Command {
 	protected void execute() {
 		// Move out the Door
 		do {
-			Robot.chassis.drive.tankDrive(.3, .3);
+			Robot.mChassis.drive.tankDrive(.3, .3);
 			SmartDashboard.putNumber("distance", Robot.encoder.getDistance());
 		} while (Robot.encoder.getDistance() > -60);
 
 		// Turn Left 90 degrees
 		do {
-			Robot.chassis.drive.tankDrive(0, .3);
+			Robot.mChassis.drive.tankDrive(0, .3);
 		} while (Robot.imu.getAngleZ() > -90);
 		Robot.imu.reset();
 
 		// Move forward 2.5 ft
 		do {
-			Robot.chassis.drive.tankDrive(.3, .3);
+			Robot.mChassis.drive.tankDrive(.3, .3);
 		} while (Robot.encoder.getDistance() > -30);
 
 		// Turn Left 90 degrees
 		do {
-			Robot.chassis.drive.tankDrive(0, .3);
+			Robot.mChassis.drive.tankDrive(0, .3);
 		} while (Robot.imu.getAngleZ() > -90);
 		Robot.imu.reset();
 
 		// Move to wall
 		do {
-			Robot.chassis.drive.tankDrive(.2, .2);
+			Robot.mChassis.drive.tankDrive(.2, .2);
 		} while (Robot.ultrasonic.getRangeInches() > 5);
 
 		// turn Right 90 degrees
 		do {
-			Robot.chassis.drive.tankDrive(.3, 0);
+			Robot.mChassis.drive.tankDrive(.3, 0);
 		} while (Robot.imu.getAngleZ() < 90);
 		Robot.imu.reset();
 
 		// Move to just before backpack
 		do {
-			Robot.chassis.drive.tankDrive(.2, .2);
+			Robot.mChassis.drive.tankDrive(.2, .2);
 		} while (Robot.ultrasonic.getRangeInches() < 5);
 
 		// touch backpack
 		do {
-			Robot.chassis.drive.tankDrive(.1, .1);
+			Robot.mChassis.drive.tankDrive(.1, .1);
 		} while (Robot.encoder.getDistance() > -5);
 
 	}

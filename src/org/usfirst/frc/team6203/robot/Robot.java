@@ -6,6 +6,7 @@ import org.usfirst.frc.team6203.robot.commands.Move_Detect;
 import org.usfirst.frc.team6203.robot.subsystems.ADIS16448_IMU;
 import org.usfirst.frc.team6203.robot.subsystems.Chassis;
 import org.usfirst.frc.team6203.robot.subsystems.Elevator;
+import org.usfirst.frc.team6203.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Counter;
@@ -27,17 +28,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	
+	//Subsystems
+	public static Chassis mChassis = Chassis.getInstance();
+	public static Elevator mElevator = Elevator.getInstance();
+	public static Intake mIntake = Intake.getInstance();
 
+	//Camera and OI
 	public static OI oi;
-	public static Chassis chassis;
 	public static CameraServer axisCam;
 	public static CameraServer usbCam;
-	public static Elevator elevator;
+	
+	//Sensors
 	public static ADIS16448_IMU imu;
 	public static Encoder encoder;
 	public static Counter halleffect;
-
 	public static Ultrasonic ultrasonic;
+	
+	//LED Strip
 	public static DigitalOutput digit;
 
 	Command autonomousCommand;
@@ -51,9 +59,9 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 
 		// Instantiate subsystems
+		
+		
 		oi = new OI();
-		chassis = new Chassis();
-
 		axisCam = CameraServer.getInstance();
 		axisCam.addAxisCamera("test", Constants.IP);
 		axisCam.startAutomaticCapture();

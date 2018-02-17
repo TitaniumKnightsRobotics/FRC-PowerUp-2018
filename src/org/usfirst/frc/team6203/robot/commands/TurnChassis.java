@@ -18,7 +18,7 @@ public class TurnChassis extends Command {
    public TurnChassis(double degrees, double speed) {
        // Use requires() here to declare subsystem dependencies
        // eg. requires(chassis);
-       requires(Robot.chassis);
+       requires(Robot.mChassis);
        this.targetDegrees = degrees;
        this.speed = speed;
    }

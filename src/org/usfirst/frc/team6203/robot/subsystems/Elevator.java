@@ -11,6 +11,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 
 public class Elevator extends Subsystem {
+	
+	private static Elevator mInstance = new Elevator();
+
+	public static Elevator getInstance() {
+		return mInstance;
+	}
 
 	public enum State {
 		MAX_HEIGHT, COLLAPSED, SWITCH_HEIGHT, SCALE_HEIGHT, DISABLED;

@@ -24,13 +24,13 @@ public class MoveChassisPID extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.encoder.reset();
-		Robot.chassis.enablePIDControl();
-		Robot.chassis.setSetpoint(target);
+		Robot.mChassis.enablePIDControl();
+		Robot.mChassis.setSetpoint(target);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.chassis.usePIDOutput();
+		Robot.mChassis.usePIDOutput();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -40,7 +40,7 @@ public class MoveChassisPID extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.chassis.resetPIDControl();
+		Robot.mChassis.resetPIDControl();
 	}
 
 	// Called when another command which requires one or more of the same

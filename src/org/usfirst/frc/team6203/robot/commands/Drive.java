@@ -15,7 +15,7 @@ public class Drive extends Command {
 	public boolean slow_pressed = false;
 
 	public Drive() {
-		requires(Robot.chassis);
+		requires(Robot.mChassis);
 	}
 
 	protected void initialize() {
@@ -37,7 +37,7 @@ public class Drive extends Command {
 	protected void execute() {
 		updateButtons();
 
-		Robot.chassis.tankDrive();
+		Robot.mChassis.tankDrive();
 		// Robot.chassis.arcadeDrive();
 	}
 
