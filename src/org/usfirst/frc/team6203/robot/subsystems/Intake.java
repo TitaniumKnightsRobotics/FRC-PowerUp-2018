@@ -3,7 +3,7 @@ package org.usfirst.frc.team6203.robot.subsystems;
 import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,8 +23,8 @@ public class Intake extends Subsystem {
 		return mInstance;
 	}
 
-	private Victor intake_master;
-	private Victor intake_slave;
+	private Spark intake_master;
+	private Spark intake_slave;
 	private State state;
 
 	public enum State {
@@ -32,8 +32,8 @@ public class Intake extends Subsystem {
 	}
 
 	public Intake() {
-		intake_master = new Victor(RobotMap.intakeMotor);
-		intake_slave = new Victor(RobotMap.intakeMotor);
+		intake_master = new Spark(RobotMap.intakeMotor);
+		intake_slave = new Spark(RobotMap.intakeMotor);
 		intake_master.setBounds(0.3, 0.3, 0, -0.3, -0.3);
 		intake_slave.setBounds(0.3, 0.3, 0, -0.3, -0.3);
 		state = State.DISABLED;
@@ -44,11 +44,11 @@ public class Intake extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	public void setIntake(State s) {
+	public void setIntakeState(State s) {
 		state = s;
 	}
 
-	public void intakeLoop() {
+	public void runIntakeLoop() {
 		switch (this.state) {
 		case IDLE:
 			setIntakeMotor(0);
@@ -79,6 +79,10 @@ public class Intake extends Subsystem {
 		}
 	}
 
+	public void safetyLoop() {
+
+	}
+
 	public double getPIDOutput() {
 		return Constants.kIntakeP * (intake_master.getSpeed() - intake_slave.getSpeed());
 	}
@@ -90,6 +94,10 @@ public class Intake extends Subsystem {
 
 	public boolean isReadyforIntake() {
 		return Math.abs(Constants.kIntakeSpeed - intake_master.getSpeed()) < 0.2;
+	}
+
+	public boolean isOccupied() {
+		return false;
 	}
 
 	public void publishValues() {

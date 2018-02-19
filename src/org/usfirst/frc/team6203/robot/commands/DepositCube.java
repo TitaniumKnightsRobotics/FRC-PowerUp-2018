@@ -28,7 +28,7 @@ public class DepositCube extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(System.currentTimeMillis() > startTime + time){
-    		Robot.mIntake.setIntake(Intake.State.DEPOSIT);
+    		Robot.mIntake.setIntakeState(Intake.State.DEPOSIT);
     	}else{
     		isFinished = true;
     	}
@@ -41,7 +41,7 @@ public class DepositCube extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.mIntake.setIntake(Intake.State.IDLE);
+    	Robot.mIntake.setIntakeState(Intake.State.IDLE);
     }
 
     // Called when another command which requires one or more of the same
