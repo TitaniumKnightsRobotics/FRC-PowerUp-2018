@@ -22,8 +22,9 @@ public class Constants {
 	public static final double kInSpeed = -kDepositSpeed;
 
 	// Elevator
+	public static final double kElevatorRatio = 100;
 	public static final double kElevatorSpeed = 0.2;
-	public static final double kElevatorDistancePerPulse = Math.PI * 1; // TODO
+	public static final double kElevatorDistancePerPulse = Math.PI * (1.432 / kElevatorRatio); // how far chain moves each revolution
 	public static final double kSwitchHeight = 0;
 	public static final double kScaleHeight = 0;
 	public static final double kMaxHeight = 0;

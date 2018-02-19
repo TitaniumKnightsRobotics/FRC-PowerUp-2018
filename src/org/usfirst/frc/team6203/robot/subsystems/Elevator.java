@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 
 public class Elevator extends PIDSubsystem {
-	
+
 	private static Elevator mInstance = new Elevator();
 	private State state;
-	
+
 	public static Elevator getInstance() {
 		return mInstance;
 	}
@@ -46,37 +46,34 @@ public class Elevator extends PIDSubsystem {
 	public boolean isSet() {
 		return counter.get() > 0;
 	}
-	
+
 	public void setElevatorState(State s) {
 		state = s;
 	}
-	
+
 	public void moveElevator() {
-		
-		switch(this.state) {
+		switch (this.state) {
 		case DISABLED:
 			elevatorMotor.setDisabled();
 			break;
 		case COLLAPSED:
 			setSetpoint(0);
-			enable();
 			break;
 		case SWITCH_HEIGHT:
 			setSetpoint(Constants.kSwitchHeight);
-			enable();
 			break;
 		case SCALE_HEIGHT:
 			setSetpoint(Constants.kScaleHeight);
-			enable();
 			break;
 		case MAX_HEIGHT:
 		}
+		enable();
 	}
-	
+
 	public void setElevatorMotor(double s) {
 		elevatorMotor.set(s);
 	}
-	
+
 	public void reset() {
 		setElevatorState(State.COLLAPSED);
 		counter.reset();
