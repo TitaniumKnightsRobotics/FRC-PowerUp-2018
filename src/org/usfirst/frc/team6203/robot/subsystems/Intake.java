@@ -79,7 +79,6 @@ public class Intake extends Subsystem {
 		}
 	}
 
-	//figure out how to use this shit
 	public double getPIDOutput() {
 		return Constants.kIntakeP * (intake_master.getSpeed() - intake_slave.getSpeed());
 	}

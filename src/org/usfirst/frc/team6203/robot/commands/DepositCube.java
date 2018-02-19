@@ -41,6 +41,7 @@ public class DepositCube extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.mIntake.setIntake(Intake.State.IDLE);
     }
 
     // Called when another command which requires one or more of the same
