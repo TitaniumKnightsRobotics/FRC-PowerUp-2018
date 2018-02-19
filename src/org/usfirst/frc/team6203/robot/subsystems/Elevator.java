@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6203.robot.subsystems;
 
+import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
 
@@ -13,9 +14,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 
 public class Elevator extends PIDSubsystem {
-
+	
 	private static Elevator mInstance = new Elevator();
-
+	private State state;
+	
 	public static Elevator getInstance() {
 		return mInstance;
 	}
@@ -33,6 +35,7 @@ public class Elevator extends PIDSubsystem {
 		super("Elevator", 2.0, 0.0, 0.0);
 		elevatorMotor = new Victor(RobotMap.elevatorMotor);
 		counter = new Counter(1);
+		counter.setDistancePerPulse(Constants.kElevatorDistancePerPulse);
 	}
 
 	public void initDefaultCommand() {
@@ -43,12 +46,37 @@ public class Elevator extends PIDSubsystem {
 	public boolean isSet() {
 		return counter.get() > 0;
 	}
-
+	
 	public void setElevatorState(State s) {
-		// todo
-
+		state = s;
 	}
-
+	
+	public void moveElevator() {
+		
+		switch(this.state) {
+		case DISABLED:
+			elevatorMotor.setDisabled();
+			break;
+		case COLLAPSED:
+			setSetpoint(0);
+			enable();
+			break;
+		case SWITCH_HEIGHT:
+			setSetpoint(Constants.kSwitchHeight);
+			enable();
+			break;
+		case SCALE_HEIGHT:
+			setSetpoint(Constants.kScaleHeight);
+			enable();
+			break;
+		case MAX_HEIGHT:
+		}
+	}
+	
+	public void setElevatorMotor(double s) {
+		elevatorMotor.set(s);
+	}
+	
 	public void reset() {
 		setElevatorState(State.COLLAPSED);
 		counter.reset();
@@ -58,7 +86,7 @@ public class Elevator extends PIDSubsystem {
 	@Override
 	protected double returnPIDInput() {
 		// TODO Auto-generated method stub
-		return 0;
+		return counter.getDistance();
 	}
 
 	@Override

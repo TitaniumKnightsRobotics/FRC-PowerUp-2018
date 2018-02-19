@@ -22,5 +22,11 @@ public class Constants {
 	public static final double kDepositSpeed = 0.2;
 	public static final double kIntakeP = 0.3;
 	public static final double kInSpeed = -kDepositSpeed;
+	
+	//Elevator
+	public static final double kElevatorDistancePerPulse = Math.PI * 1; //TODO
+	public static final double kSwitchHeight = 0;
+	public static final double kScaleHeight = 0;
+	public static final double kMaxHeight = 0;
 
 }
