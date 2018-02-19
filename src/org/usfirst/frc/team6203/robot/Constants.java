@@ -21,5 +21,6 @@ public class Constants {
 	public static final double kIntakeSpeed = 0.3;
 	public static final double kDepositSpeed = 0.2;
 	public static final double kIntakeP = 0.3;
+	public static final double kInSpeed = -kDepositSpeed;
 
 }
