@@ -28,7 +28,7 @@ public class Intake extends Subsystem {
 	private State state;
 
 	public enum State {
-		READY, DEPOSIT, IDLE, DISABLED, OCCUPIED, SPINNING;
+		READY, DEPOSIT, IDLE, DISABLED, OCCUPIED, SPINNING, INTAKE;
 	}
 
 	public Intake() {
@@ -69,6 +69,9 @@ public class Intake extends Subsystem {
 			break;
 		case DEPOSIT:
 			setIntakeMotor(Constants.kDepositSpeed);
+			break;
+		case INTAKE:
+			setIntakeMotor(Constants.kInSpeed);
 			break;
 		default:
 			this.state = State.IDLE;

@@ -1,15 +1,24 @@
 package org.usfirst.frc.team6203.robot.commands;
 
+import org.usfirst.frc.team6203.robot.Robot;
+import org.usfirst.frc.team6203.robot.subsystems.Intake;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class IntakeCube extends Command {
-
-    public IntakeCube() {
+	
+	public int time;
+	private double startTime;
+	private boolean isFinished = false;
+	
+    public IntakeCube(int time) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	this.time = time;
+    	startTime = System.currentTimeMillis();    	
     }
 
     // Called just before this Command runs the first time
@@ -18,11 +27,16 @@ public class IntakeCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(System.currentTimeMillis() > startTime + time){
+    		Robot.mIntake.setIntake(Intake.State.INTAKE);
+    	}else{
+    		isFinished = true;
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isFinished;
     }
 
     // Called once after isFinished returns true
