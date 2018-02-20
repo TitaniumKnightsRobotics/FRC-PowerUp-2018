@@ -32,8 +32,8 @@ public class Intake extends Subsystem {
 	}
 
 	public Intake() {
-		intake_master = new Spark(RobotMap.intakeMotor);
-		intake_slave = new Spark(RobotMap.intakeMotor);
+		intake_master = new Spark(RobotMap.intakeMotorM);
+		intake_slave = new Spark(RobotMap.intakeMotorS);
 		state = State.DISABLED;
 	}
 
