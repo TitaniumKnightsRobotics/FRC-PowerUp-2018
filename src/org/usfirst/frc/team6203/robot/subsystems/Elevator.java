@@ -5,9 +5,10 @@ import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Elevator extends PIDSubsystem {
 
 	private static Elevator mInstance = new Elevator();
 	private State state;
+	public static DigitalInput limit1, limit2, limit3;
 
 	public static Elevator getInstance() {
 		return mInstance;
@@ -35,6 +37,10 @@ public class Elevator extends PIDSubsystem {
 		super("Elevator", 2.0, 0.0, 0.0);
 		elevatorMotor = new Victor(RobotMap.elevatorMotor);
 		counter = new Counter(1);
+		limit1 = new DigitalInput(RobotMap.limit_switch_bottom);
+		// l2 = new DigitalInput(1);
+		// l3 = new DigitalInput(2);
+
 		counter.setDistancePerPulse(Constants.kElevatorDistancePerPulse);
 	}
 
@@ -45,6 +51,26 @@ public class Elevator extends PIDSubsystem {
 
 	public void runElevatorOpenLoop() {
 		// get ben's code
+		int pov = Robot.oi.driverStick.getPOV();
+		if (pov != -1)
+			pov /= 45;
+
+		SmartDashboard.putNumber("pov", pov);
+
+		boolean b1 = !limit1.get();
+		// boolean b2 = l2.get();
+		// boolean b3 = l3.get();
+
+		if (pov == 0)
+			elevatorMotor.set(Constants.kMaxElevatorSpeed);
+		else if (pov == 1 || pov == 7)
+			elevatorMotor.set(Constants.kMaxElevatorSpeed / 2);
+		else if (!b1 && (pov == 3 || pov == 5))
+			elevatorMotor.set(-Constants.kMaxElevatorSpeed / 2);
+		else if (!b1 && (pov == 4))
+			elevatorMotor.set(-Constants.kMaxElevatorSpeed);
+		else
+			elevatorMotor.set(0);
 	}
 
 	public boolean isSet() {

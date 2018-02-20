@@ -29,7 +29,7 @@ public class RobotMap {
 	public static int ultrasonic1 = 3;
 	public static int ultrasonic2 = 4;
 	
-	public static int limit_switch_bottom = 4;
+	public static int limit_switch_bottom = 0;
 	public static int limit_switch_top = 5;
 	
 	

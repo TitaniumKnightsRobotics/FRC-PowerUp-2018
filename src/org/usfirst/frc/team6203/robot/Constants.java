@@ -28,5 +28,6 @@ public class Constants {
 	public static final double kSwitchHeight = 0;
 	public static final double kScaleHeight = 0;
 	public static final double kMaxHeight = 0;
+	public static final double kMaxElevatorSpeed = 1;
 
 }
