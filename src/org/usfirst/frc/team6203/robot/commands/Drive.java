@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6203.robot.commands;
 
+import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.Robot;
 import org.usfirst.frc.team6203.robot.RobotMap;
 
@@ -23,7 +24,7 @@ public class Drive extends Command {
 	}
 
 	private void updateButtons() {
-		boolean slow_curr = Robot.oi.driverStick.getRawButton(RobotMap.slowspeed);
+		boolean slow_curr = Robot.oi.driverStick.getRawButton(2);
 		if (!slow_pressed && slow_curr)
 			slow = !slow;
 

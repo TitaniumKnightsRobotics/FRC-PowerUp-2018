@@ -9,17 +9,18 @@ package org.usfirst.frc.team6203.robot;
 public class RobotMap {
 
 	//Drivetrain Motors
-	public static int leftMotor = 0;
-	public static int rightMotor = 1;
+	public static int leftMotorF = 2;
+	public static int leftMotorB = 3;
+	public static int rightMotorF = 0;
+	public static int rightMotorB = 1;
 	
 	//Controllers
 	public static int controller = 0;
 	
-	public static int elevatorMotor = 2;
+	public static int elevatorMotor = 4;
 
-	public static int intakeMotor = 3;
-	
-	public static int slowspeed = 2;
+	public static int intakeMotorM = 5;
+	public static int intakeMotorS = 6;
 
 	public static int encoder_channelA = 0;
 	public static int encoder_channelB = 1;
@@ -28,7 +29,8 @@ public class RobotMap {
 	public static int ultrasonic1 = 3;
 	public static int ultrasonic2 = 4;
 	
-	public static int limit_switch = 4;
+	public static int limit_switch_bottom = 4;
+	public static int limit_switch_top = 5;
 	
 	
 	

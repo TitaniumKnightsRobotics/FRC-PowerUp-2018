@@ -78,7 +78,7 @@ public class Robot extends IterativeRobot {
 		ultrasonic.setAutomaticMode(true);
 
 		digital_output = new DigitalOutput(5);
-		limit_switch = new DigitalInput(RobotMap.limit_switch);
+		limit_switch = new DigitalInput(RobotMap.limit_switch_bottom);
 
 		chooser.addDefault("Auto1", new Auto(0, 0));
 		// chooser.addObject("Auto2", new Auto(2, 0));

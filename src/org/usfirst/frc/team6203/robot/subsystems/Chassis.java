@@ -4,6 +4,8 @@ import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.OI;
 import org.usfirst.frc.team6203.robot.RobotMap;
 import org.usfirst.frc.team6203.robot.commands.Drive;
+
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -22,8 +24,13 @@ public class Chassis extends Subsystem {
 	}
 
 	// Motors
-	public static Victor leftMotor;
-	public static Victor rightMotor;
+	public static Victor leftMotorF;
+	public static Victor leftMotorB;
+	public static Victor rightMotorF;
+	public static Victor rightMotorB;
+
+	public static SpeedControllerGroup m_left;
+	public static SpeedControllerGroup m_right;
 
 	// Drive control
 	public static DifferentialDrive drive;
@@ -32,9 +39,15 @@ public class Chassis extends Subsystem {
 	private State state;
 
 	public Chassis() {
-		leftMotor = new Victor(RobotMap.leftMotor);
-		rightMotor = new Victor(RobotMap.rightMotor);
-		drive = new DifferentialDrive(leftMotor, rightMotor);
+		leftMotorF = new Victor(RobotMap.leftMotorF);
+		leftMotorB = new Victor(RobotMap.leftMotorB);
+		rightMotorF = new Victor(RobotMap.rightMotorF);
+		rightMotorB = new Victor(RobotMap.rightMotorB);
+
+		m_left = new SpeedControllerGroup(leftMotorF, leftMotorB);
+		m_right = new SpeedControllerGroup(rightMotorF, rightMotorB);
+
+		drive = new DifferentialDrive(m_left, m_right);
 
 		drive.setMaxOutput(Constants.kMaxMotorOutput);
 		drive.setSafetyEnabled(true);
@@ -95,8 +108,8 @@ public class Chassis extends Subsystem {
 	}
 
 	public void publishValues() {
-		SmartDashboard.putNumber("l_motor_PWM", leftMotor.get());
-		SmartDashboard.putNumber("r_motor_PWM", rightMotor.get());
+		SmartDashboard.putNumber("l_motor_PWM", m_left.get());
+		SmartDashboard.putNumber("r_motor_PWM", m_right.get());
 		SmartDashboard.putString("state", this.state.toString());
 	}
 
