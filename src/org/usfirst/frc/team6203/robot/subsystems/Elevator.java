@@ -66,6 +66,9 @@ public class Elevator extends PIDSubsystem {
 			setSetpoint(Constants.kScaleHeight);
 			break;
 		case MAX_HEIGHT:
+		default:
+			elevatorMotor.set(0);
+			break;
 		}
 		enable();
 	}
