@@ -46,6 +46,7 @@ public class Robot extends IterativeRobot {
 	public static Counter halleffect;
 	public static Ultrasonic ultrasonic;
 	public static DigitalInput limit_switch;
+	public static DigitalInput color_sensor;
 
 	// LED Strip
 	public static DigitalOutput digital_output;
@@ -79,6 +80,7 @@ public class Robot extends IterativeRobot {
 
 		digital_output = new DigitalOutput(5);
 		limit_switch = new DigitalInput(RobotMap.limit_switch);
+		color_sensor = new DigitalInput(RobotMap.color_sensor);
 
 		chooser.addDefault("Auto1", new Auto(0, 0));
 		// chooser.addObject("Auto2", new Auto(2, 0));

@@ -27,7 +27,8 @@ public class IntakeCube extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.mIntake.runIntakeLoop();
+		if (!Robot.color_sensor.get())
+			Robot.mIntake.runIntakeLoop();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
