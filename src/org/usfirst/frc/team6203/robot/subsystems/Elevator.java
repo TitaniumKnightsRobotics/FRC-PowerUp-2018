@@ -43,6 +43,10 @@ public class Elevator extends PIDSubsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
+	public void runElevatorOpenLoop() {
+		// get ben's code
+	}
+
 	public boolean isSet() {
 		return counter.get() > 0;
 	}
