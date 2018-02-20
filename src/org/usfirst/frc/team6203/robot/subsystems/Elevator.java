@@ -23,7 +23,7 @@ public class Elevator extends PIDSubsystem {
 	}
 
 	public enum State {
-		MAX_HEIGHT, COLLAPSED, SWITCH_HEIGHT, SCALE_HEIGHT, DISABLED;
+		MAX_HEIGHT, COLLAPSED, SWITCH_HEIGHT, SCALE_HEIGHT, DISABLED, IDLE;
 	}
 
 	// Put methods for controlling this subsystem
@@ -56,7 +56,7 @@ public class Elevator extends PIDSubsystem {
 		case DISABLED:
 			elevatorMotor.setDisabled();
 			break;
-		case COLLAPSED:
+		case IDLE:
 			setSetpoint(0);
 			break;
 		case SWITCH_HEIGHT:
