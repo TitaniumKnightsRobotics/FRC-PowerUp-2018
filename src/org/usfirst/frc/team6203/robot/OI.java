@@ -1,5 +1,8 @@
 package org.usfirst.frc.team6203.robot;
 
+import org.usfirst.frc.team6203.robot.commands.IntakeCube;
+import org.usfirst.frc.team6203.robot.subsystems.Intake;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -31,11 +34,8 @@ public class OI {
 		
 		
 		//TODO: Map commands to buttons
-		button1.whenPressed(null);
-		button2.whenPressed(null);
-		button3.whenPressed(null);
-		button4.whenPressed(null);
-		button5.whenPressed(null);
+		button3.whenPressed(new IntakeCube(Intake.State.DEPOSIT));
+		button4.whenPressed(new IntakeCube(Intake.State.INTAKE));
 		
 	}	
 	
