@@ -34,8 +34,6 @@ public class Intake extends Subsystem {
 	public Intake() {
 		intake_master = new Spark(RobotMap.intakeMotor);
 		intake_slave = new Spark(RobotMap.intakeMotor);
-		intake_master.setBounds(0.3, 0.3, 0, -0.3, -0.3);
-		intake_slave.setBounds(0.3, 0.3, 0, -0.3, -0.3);
 		state = State.DISABLED;
 	}
 
@@ -71,7 +69,7 @@ public class Intake extends Subsystem {
 			setIntakeMotor(Constants.kDepositSpeed);
 			break;
 		case INTAKE:
-			setIntakeMotor(Constants.kInSpeed);
+			setIntakeMotor(Constants.kIntakeSpeed);
 			break;
 		default:
 			this.state = State.IDLE;
@@ -80,7 +78,6 @@ public class Intake extends Subsystem {
 	}
 
 	public void safetyLoop() {
-
 	}
 
 	public double getPIDOutput() {
