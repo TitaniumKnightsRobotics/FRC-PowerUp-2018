@@ -3,7 +3,7 @@ package org.usfirst.frc.team6203.robot.subsystems;
 import org.usfirst.frc.team6203.robot.Constants;
 import org.usfirst.frc.team6203.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,8 +23,8 @@ public class Intake extends Subsystem {
 		return mInstance;
 	}
 
-	private Spark intake_master;
-	private Spark intake_slave;
+	private Victor intake_master;
+	private Victor intake_slave;
 	private State state;
 
 	public enum State {
@@ -32,8 +32,8 @@ public class Intake extends Subsystem {
 	}
 
 	public Intake() {
-		intake_master = new Spark(RobotMap.intakeMotorM);
-		intake_slave = new Spark(RobotMap.intakeMotorS);
+		intake_master = new Victor(RobotMap.intakeMotorM);
+		intake_slave = new Victor(RobotMap.intakeMotorS);
 		state = State.DISABLED;
 	}
 
