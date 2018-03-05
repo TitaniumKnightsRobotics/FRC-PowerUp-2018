@@ -14,32 +14,33 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 
 	public static Joystick driverStick;
+	public static Joystick elevatorStick;
 	public static Button button1;
 	public static Button button2;
 	public static Button button3;
 	public static Button button4;
 	public static Button button5;
-	
+
 	public JoystickButton getButton(int button) {
 		return new JoystickButton(driverStick, button);
 	}
 
 	public OI() {
 		driverStick = new Joystick(RobotMap.controller);
+		elevatorStick = new Joystick(RobotMap.e_controller);
 		button1 = getButton(1);
 		button2 = getButton(2);
 		button3 = getButton(3);
 		button4 = getButton(4);
 		button5 = getButton(5);
-		
-		
-		//TODO: Map commands to buttons
+
+		// TODO: Map commands to buttons
 		button3.whenPressed(new IntakeCube(Intake.State.DEPOSIT));
 		button4.whenPressed(new IntakeCube(Intake.State.INTAKE));
-		
-	}	
-	
-	//Axis values
+
+	}
+
+	// Axis values
 	public double getDriverStickLeftX() {
 		return driverStick.getRawAxis(0);
 	}
@@ -55,8 +56,5 @@ public class OI {
 	public double getDriverStickRightY() {
 		return driverStick.getRawAxis(3);
 	}
-
-
-	
 
 }

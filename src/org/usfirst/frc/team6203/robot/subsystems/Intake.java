@@ -72,7 +72,7 @@ public class Intake extends Subsystem {
 			setIntakeMotor(Constants.kIntakeSpeed);
 			break;
 		default:
-			this.state = State.IDLE;
+			setIntakeMotor(0);
 			break;
 		}
 	}
